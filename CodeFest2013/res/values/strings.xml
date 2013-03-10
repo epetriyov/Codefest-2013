@@ -3,10 +3,14 @@
     <string name="app_name">CodeFest 2013</string>
     <string name="programTabText">Программа</string>
     <string name="favoritesTabText">Избранное</string>
-    <string name="chatTabText">Чат</string>
+    <string name="chatTabText">\@CodeFestRu</string>
 
     <!-- menu items -->
     <string name="refresh_menu">Refresh</string>
     <string name="settings_menu">Settings</string>
+
+    <!-- error messages -->
+    <string name="error_client_protocol">Ошибка сервера Twitter</string>
+    <string name="error_io">Ошибка ввода/вывода</string>
 
 </resources>

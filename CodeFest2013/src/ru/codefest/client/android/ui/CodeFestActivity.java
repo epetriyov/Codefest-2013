@@ -3,6 +3,7 @@ package ru.codefest.client.android.ui;
 import ru.codefest.client.android.R;
 import ru.codefest.client.android.service.ServiceHelper;
 import ru.codefest.client.android.ui.program.ProgramFragment;
+import ru.codefest.client.android.ui.twitter.TwitterFeedFragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,9 +27,8 @@ public class CodeFestActivity extends CodeFestBaseActivity {
         public CodeFestPagerAdapter(FragmentManager fm) {
             super(fm);
             content = new String[] { getString(R.string.programTabText),
-            // getString(R.string.favoritesTabText),
-            // getString(R.string.chatTabText)
-            };
+                    // getString(R.string.favoritesTabText),
+                    getString(R.string.chatTabText) };
         }
 
         @Override
@@ -41,8 +41,8 @@ public class CodeFestActivity extends CodeFestBaseActivity {
             switch (position) {
             case 0:
                 return new ProgramFragment();
-                // case 1:
-                // return new ProgramFragment();
+            case 1:
+                return new TwitterFeedFragment();
                 // case 2:
                 // return new ProgramFragment();
             default:

@@ -45,7 +45,7 @@ public class BinderHelper {
         if (cursor.getCount() > 0) {
             return getValuesFromCursor(cursor, clazz);
         }
-        return null;
+        return new ArrayList<T>();
     }
 
     public <T> ContentValues[] adaptValuesFromList(List<T> list) {

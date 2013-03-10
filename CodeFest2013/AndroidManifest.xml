@@ -7,10 +7,14 @@
         android:minSdkVersion="7"
         android:targetSdkVersion="15" />
 
-    <!-- for getting data from codefest.ru -->
+    <!-- for getting data from codefest.ru and get twitter feed -->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- for cache images -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
+        android:name=".CodeFestApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
