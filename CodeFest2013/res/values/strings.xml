@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="app_name">CodeFest 2013</string>
+    <string name="programTabText">Программа</string>
+    <string name="favoritesTabText">Избранное</string>
+    <string name="chatTabText">Чат</string>
+
+    <!-- menu items -->
+    <string name="refresh_menu">Refresh</string>
+    <string name="settings_menu">Settings</string>
+
+</resources>

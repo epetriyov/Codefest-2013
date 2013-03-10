@@ -1,0 +1,10 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.Sherlock" />
+
+    <style name="TabsStyle" parent="AppTheme">
+        <item name="vpiIconPageIndicatorStyle">@style/Widget.IconPageIndicator</item>
+        <item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator</item>
+    /></style>
+
+</resources>
