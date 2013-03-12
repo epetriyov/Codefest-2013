@@ -3,7 +3,7 @@
     <string name="app_name">CodeFest 2013</string>
     <string name="programTabText">Программа</string>
     <string name="favoritesTabText">Избранное</string>
-    <string name="chatTabText">\@CodeFestRu</string>
+    <string name="chatTabText">#codefest</string>
 
     <!-- menu items -->
     <string name="refresh_menu">Refresh</string>

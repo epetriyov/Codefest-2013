@@ -16,7 +16,7 @@ public class CodeFestTwitterApi {
 
     private static final String TWITTER_SEARCH_JSON_URL = "http://search.twitter.com/search.json";
 
-    public static final String CODEFEST_USER = "CodeFestRu";
+    public static final String CODEFEST_USER = "%23codefest";
 
     private static final String TAG_FROM_USER = "from_user";
 
@@ -35,12 +35,14 @@ public class CodeFestTwitterApi {
     public List<Tweet> getTweets(String searchTerm, int limit, int page)
             throws ClientProtocolException, IOException {
         StringBuilder feedUrl = new StringBuilder(TWITTER_SEARCH_JSON_URL);
-        feedUrl.append("?q=@");
+        feedUrl.append("?q=");
         feedUrl.append(searchTerm);
+        feedUrl.append("+exclude:retweets");
         feedUrl.append("&rpp=");
         feedUrl.append(limit);
         feedUrl.append("&page=");
         feedUrl.append(page);
+        feedUrl.append("&lang=ru");
         String searchUrl = feedUrl.toString();
         String jsonResult = transport.makeHttpGetRequest(searchUrl);
         return parseJsonTwitterFeed(jsonResult);

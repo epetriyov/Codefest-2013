@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
-import org.json.JSONException;
 import org.mockito.Mockito;
 
 import ru.codefest.client.android.http.Transport;
@@ -33,7 +32,8 @@ public class TestCodeFestTwitterApi extends InstrumentationTestCase {
         }
         CodeFestTwitterApi twitterApi = new CodeFestTwitterApi(mockedTransport);
         try {
-            List<Tweet> tweetsList = twitterApi.getTweets("CodeFestRu", 100, 1);
+            List<Tweet> tweetsList = twitterApi.getTweets(
+                    CodeFestTwitterApi.CODEFEST_USER, 100, 1);
             assertEquals(tweetsList.size(), 1);
             assertEquals(tweetsList.get(0).userName, "illbullet");
         } catch (ClientProtocolException e) {
@@ -42,9 +42,6 @@ public class TestCodeFestTwitterApi extends InstrumentationTestCase {
         } catch (IOException e) {
             e.printStackTrace();
             fail("I/O-related error!");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            fail("JSONException!");
         }
     }
 }
