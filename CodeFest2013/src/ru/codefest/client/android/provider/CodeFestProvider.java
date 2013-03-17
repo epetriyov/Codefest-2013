@@ -1,6 +1,5 @@
 package ru.codefest.client.android.provider;
 
-import ru.codefest.client.android.model.Category;
 import ru.codefest.client.android.model.Lecture;
 import android.content.UriMatcher;
 import android.net.Uri;
@@ -19,7 +18,7 @@ public class CodeFestProvider extends CustomContentProvider {
     private static final Uri URI_PREFIX = Uri.parse("content://" + CONTENT_URI
             + "/");
 
-    private static final Class<?>[] TABLES = { Category.class, Lecture.class };
+    private static final Class<?>[] TABLES = { Lecture.class };
 
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);

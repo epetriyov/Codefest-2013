@@ -3,9 +3,7 @@ package ru.codefest.client.android.service;
 import java.io.IOException;
 import java.util.List;
 
-import ru.codefest.client.android.dao.CategoryDao;
 import ru.codefest.client.android.dao.LectureDao;
-import ru.codefest.client.android.model.Category;
 import ru.codefest.client.android.model.Lecture;
 import ru.codefest.client.android.parser.CodeFestHtmlParser;
 import android.app.IntentService;
@@ -34,16 +32,8 @@ public class CodeFestService extends IntentService {
         if (commandName == ServiceHelper.REFRESH_COMMAND) {
             CodeFestHtmlParser parser = new CodeFestHtmlParser();
             try {
-                List<Category> categoryList = parser
-                        .parseCodeFestCategories(CodeFestHtmlParser.CODEFEST_PROGRAM_URL);
-                CategoryDao dao = new CategoryDao(this, new BinderHelper());
-                dao.bulkInsertCategories(categoryList);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
                 List<Lecture> lectureList = parser
-                        .parseCodeFestProgram(CodeFestHtmlParser.CODEFEST_PROGRAM_URL);
+                        .parseCodeFestProgram(CodeFestHtmlParser.CODEFEST_URL);
                 LectureDao dao = new LectureDao(this, new BinderHelper());
                 dao.bulkInsertLectures(lectureList);
 

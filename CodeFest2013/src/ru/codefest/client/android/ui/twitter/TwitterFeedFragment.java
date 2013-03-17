@@ -41,8 +41,10 @@ public final class TwitterFeedFragment extends SherlockFragment implements
     @Override
     public void updateTwitterFeed(List<Tweet> tweets) {
         twitterAdapter.clear();
-        for (Tweet tweet : tweets) {
-            twitterAdapter.addItem(tweet, R.layout.adt_tweet, true);
+        if (tweets != null) {
+            for (Tweet tweet : tweets) {
+                twitterAdapter.addItem(tweet, R.layout.adt_tweet, true);
+            }
         }
         twitterAdapter.notifyDataSetChanged();
 

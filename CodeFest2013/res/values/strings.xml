@@ -11,6 +11,6 @@
 
     <!-- error messages -->
     <string name="error_client_protocol">Ошибка сервера Twitter</string>
-    <string name="error_io">Ошибка ввода/вывода</string>
+    <string name="error_io">Нет интернет-соединения</string>
 
 </resources>

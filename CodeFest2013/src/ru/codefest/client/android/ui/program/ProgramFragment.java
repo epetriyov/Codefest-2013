@@ -3,7 +3,6 @@ package ru.codefest.client.android.ui.program;
 import java.util.List;
 
 import ru.codefest.client.android.R;
-import ru.codefest.client.android.model.Category;
 import ru.codefest.client.android.model.Lecture;
 import ru.codefest.client.android.ui.ActivityTransition;
 import android.os.Bundle;
@@ -39,27 +38,26 @@ public final class ProgramFragment extends SherlockFragment implements
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         ActivityTransition.openLectureInfo(getSherlockActivity(),
-                ((Lecture) programAdapter.getItem(arg2)).getId());
+                ((Lecture) programAdapter.getItem(arg2)).id);
     }
 
     @Override
-    public void updateProgramList(List<Lecture> lectures,
-            List<Category> categories) {
+    public void updateProgramList(List<Lecture> lectures) {
         programAdapter.clear();
-        if (categories.size() > 0 && lectures.size() > 0) {
-            int categoryCounter = 0;
-            programAdapter.addItem(categories.get(categoryCounter),
-                    R.layout.adt_category, false);
-            for (int i = 0; i < lectures.size(); i++) {
-                if (i > 0
-                        && !lectures.get(i).categoryName.equals(lectures
-                                .get(i - 1).categoryName)) {
-                    programAdapter.addItem(categories.get(++categoryCounter),
-                            R.layout.adt_category, false);
-                }
-                programAdapter.addItem(lectures.get(i), R.layout.adt_program,
-                        true);
-            }
+        if (lectures.size() > 0) {
+            // int categoryCounter = 0;
+            // programAdapter.addItem(categories.get(categoryCounter),
+            // R.layout.adt_category, false);
+            // for (int i = 0; i < lectures.size(); i++) {
+            // if (i > 0
+            // && !lectures.get(i).categoryName.equals(lectures
+            // .get(i - 1).categoryName)) {
+            // programAdapter.addItem(categories.get(++categoryCounter),
+            // R.layout.adt_category, false);
+            // }
+            // programAdapter.addItem(lectures.get(i), R.layout.adt_program,
+            // true);
+            // }
         }
         programAdapter.notifyDataSetChanged();
 

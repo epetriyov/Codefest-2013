@@ -25,7 +25,7 @@ public class LectureInfoActivity extends CodeFestBaseActivity implements
 
     @Override
     public void showLectureInfo(Lecture lecture) {
-        webView.loadData(lecture.descriptionHtml, "'text/html'", "UTF-8");
+        webView.loadData(lecture.lectureDescription, "'text/html'", "UTF-8");
 
     }
 

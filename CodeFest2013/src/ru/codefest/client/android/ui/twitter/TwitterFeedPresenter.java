@@ -26,6 +26,8 @@ public class TwitterFeedPresenter {
 
             private List<Tweet> tweets;
 
+            private IOException exception;
+
             @Override
             protected Void doInBackground(Void... params) {
                 CodeFestTwitterApi twitterApi = new CodeFestTwitterApi(
@@ -34,13 +36,12 @@ public class TwitterFeedPresenter {
                     tweets = twitterApi.getTweets(
                             CodeFestTwitterApi.CODEFEST_USER, 10, 1);
                 } catch (ClientProtocolException e) {
-                    Toast.makeText(fragment.getSherlockActivity(),
-                            R.string.error_client_protocol, Toast.LENGTH_LONG)
-                            .show();
+                    exception = new IOException(fragment.getSherlockActivity()
+                            .getString(R.string.error_client_protocol));
                     e.printStackTrace();
                 } catch (IOException e) {
-                    Toast.makeText(fragment.getSherlockActivity(),
-                            R.string.error_io, Toast.LENGTH_LONG).show();
+                    exception = new IOException(fragment.getSherlockActivity()
+                            .getString(R.string.error_io));
                     e.printStackTrace();
                 }
                 return null;
@@ -48,6 +49,10 @@ public class TwitterFeedPresenter {
 
             @Override
             protected void onPostExecute(Void result) {
+                if (exception != null) {
+                    Toast.makeText(fragment.getSherlockActivity(),
+                            exception.getMessage(), Toast.LENGTH_LONG).show();
+                }
                 fragment.getSherlockActivity()
                         .setProgressBarIndeterminateVisibility(false);
                 fragment.updateTwitterFeed(tweets);
