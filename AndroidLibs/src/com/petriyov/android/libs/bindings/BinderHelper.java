@@ -9,7 +9,10 @@ import java.util.List;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.petriyov.android.libs.contentprovider.CustomContentProvider;
+
 public class BinderHelper {
+
     /**
      * Returns a Single Domain Object from the Cursor's first row. All other
      * rows will be ignored.
@@ -78,7 +81,8 @@ public class BinderHelper {
     }
 
     private Object getValue(Class<?> clazz, Cursor cursor, int columnIndex) {
-        if (clazz.getName().endsWith("Integer")) {
+        if (clazz.getName().endsWith("Integer")
+                || clazz.getName().endsWith("int")) {
             return cursor.getInt(columnIndex);
         } else if (clazz.getName().endsWith("Long")) {
             return cursor.getLong(columnIndex);
@@ -108,7 +112,8 @@ public class BinderHelper {
     }
 
     private <T> void setFieldValue(Field fieldToSet, T object, Cursor cursor) {
-        int columnIndex = cursor.getColumnIndex(fieldToSet.getName());
+        int columnIndex = cursor.getColumnIndex(fieldToSet.getName().equals(
+                "id") ? CustomContentProvider.KEY_ID : fieldToSet.getName());
         fieldToSet.setAccessible(true);
         Class<?> clazz = fieldToSet.getType();
         Object value = getValue(clazz, cursor, columnIndex);
@@ -140,7 +145,8 @@ public class BinderHelper {
         // fields.addAll(Arrays.asList(clazz.getSuperclass().getDeclaredFields()));
         for (Field field : fields) {
             try {
-                if (!Modifier.isStatic(field.getModifiers())) {
+                if (!Modifier.isStatic(field.getModifiers())
+                        && field.getDeclaredAnnotations().length > 0) {
                     setValue(field, object, values);
                 }
             } catch (IllegalArgumentException e) {
@@ -156,8 +162,11 @@ public class BinderHelper {
         Class<?> clazz = fieldToSet.getType();
         String key = fieldToSet.getName();
         fieldToSet.setAccessible(true);
-        if (clazz.getName().endsWith("Integer")) {
-            values.put(key, fieldToSet.getInt(object));
+        if (clazz.getName().endsWith("Integer")
+                || clazz.getName().endsWith("int")) {
+            if (!key.equals("id")) {
+                values.put(key, fieldToSet.getInt(object));
+            }
         } else if (clazz.getName().endsWith("Long")) {
             values.put(key, fieldToSet.getLong(object));
         } else if (clazz.getName().endsWith("Double")) {

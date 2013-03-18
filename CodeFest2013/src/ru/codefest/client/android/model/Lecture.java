@@ -2,17 +2,18 @@ package ru.codefest.client.android.model;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.petriyov.android.libs.contentprovider.CustomContentProvider;
 
 /**
  * lecture info
  */
 @DatabaseTable(tableName = Lecture.TABLE_NAME)
-public class Lecture {
+public class Lecture extends CodeFestItem {
 
     public static final String TABLE_NAME = "Lecture";
 
-    @DatabaseField(generatedId = true, columnName = "_ID")
-    public Integer id;
+    @DatabaseField(generatedId = true, columnName = CustomContentProvider.KEY_ID)
+    public int id;
 
     @DatabaseField(index = true)
     public String name;
@@ -30,16 +31,14 @@ public class Lecture {
     public String lectureDescription;
 
     @DatabaseField
-    public String startDate;
+    public int categoryId;
 
     @DatabaseField
-    public String endDate;
+    public int periodId;
 
-    @DatabaseField
     public String categoryName;
 
-    @DatabaseField
-    public int categoryColor;
+    public String categoryColor;
 
     public Lecture() {
         super();
@@ -50,22 +49,18 @@ public class Lecture {
         StringBuilder builder = new StringBuilder();
         builder.append("Lecture [name=");
         builder.append(name);
-        builder.append(", reporterInfo=");
+        builder.append(", \nreporterInfo=");
         builder.append(reporterInfo);
-        builder.append(", reporterDescription=");
+        builder.append(", \nreporterDescription=");
         builder.append(reporterDescription);
-        builder.append(", reporterPhotoUrl=");
+        builder.append(", \nreporterPhotoUrl=");
         builder.append(reporterPhotoUrl);
-        builder.append(", descriptionHtml=");
+        builder.append(", \nlectureDescription=");
         builder.append(lectureDescription);
-        builder.append(", categoryName=");
-        builder.append(categoryName);
-        builder.append(", categoryColor=");
-        builder.append(categoryColor);
-        builder.append(", starDate=");
-        builder.append(startDate);
-        builder.append(", endDate=");
-        builder.append(endDate);
+        builder.append(", \ncategoryId=");
+        builder.append(categoryId);
+        builder.append(", \nperiodId=");
+        builder.append(periodId);
         builder.append("]");
         return builder.toString();
     }

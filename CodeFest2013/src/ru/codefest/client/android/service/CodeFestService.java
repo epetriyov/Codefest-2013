@@ -3,12 +3,13 @@ package ru.codefest.client.android.service;
 import java.io.IOException;
 import java.util.List;
 
-import ru.codefest.client.android.dao.LectureDao;
+import ru.codefest.client.android.dao.CodeFestDao;
+import ru.codefest.client.android.model.Category;
 import ru.codefest.client.android.model.Lecture;
+import ru.codefest.client.android.model.LecturePeriod;
 import ru.codefest.client.android.parser.CodeFestHtmlParser;
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
@@ -29,28 +30,34 @@ public class CodeFestService extends IntentService {
                 .getStringExtra(ServiceHelper.COMMAND_INTENT_NAME);
         Messenger messenger = (Messenger) intent
                 .getParcelableExtra(ServiceHelper.MESSENGER_INTENT_NAME);
-        if (commandName == ServiceHelper.REFRESH_COMMAND) {
+        if (commandName.equals(ServiceHelper.REFRESH_COMMAND)) {
+            // update db from web-site
             CodeFestHtmlParser parser = new CodeFestHtmlParser();
+            CodeFestDao dao = new CodeFestDao(this, new BinderHelper());
             try {
-                List<Lecture> lectureList = parser
-                        .parseCodeFestProgram(CodeFestHtmlParser.CODEFEST_URL);
-                LectureDao dao = new LectureDao(this, new BinderHelper());
-                dao.bulkInsertLectures(lectureList);
+                dao.deleteAllEntities();
+                List<Category> categoryList = parser
+                        .parseCodeFestCategories(CodeFestHtmlParser.CODEFEST_URL);
+                dao.bulkInsertItems(categoryList, Category.TABLE_NAME);
+                List<LecturePeriod> periodList = parser
+                        .parseLecturePeriods(CodeFestHtmlParser.CODEFEST_URL);
+                dao.bulkInsertItems(periodList, LecturePeriod.TABLE_NAME);
+                List<Lecture> lectureList = parser.parseCodeFestProgram(
+                        CodeFestHtmlParser.CODEFEST_URL, dao.getList(
+                                Category.class, Category.TABLE_NAME), dao
+                                .getList(LecturePeriod.class,
+                                        LecturePeriod.TABLE_NAME));
+                dao.bulkInsertItems(lectureList, Lecture.TABLE_NAME);
+                Message msg = Message.obtain();
+                try {
+                    messenger.send(msg);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        Message msg = Message.obtain();
-        Bundle data = new Bundle();
-        data.putString("k", "value" + System.currentTimeMillis());
-        msg.setData(data);
-
-        try {
-            messenger.send(msg);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
     }
-
 }

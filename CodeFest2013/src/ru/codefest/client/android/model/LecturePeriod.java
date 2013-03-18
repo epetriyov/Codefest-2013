@@ -1,14 +1,30 @@
 package ru.codefest.client.android.model;
 
-public class LecturePeriod {
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+import com.petriyov.android.libs.contentprovider.CustomContentProvider;
 
-    public String startDate;
+@DatabaseTable(tableName = LecturePeriod.TABLE_NAME)
+public class LecturePeriod extends CodeFestItem {
 
-    public String endDate;
+    public static final String TABLE_NAME = "LecturePeriod";
 
-    public LecturePeriod(String startDate, String endDate) {
-        this.startDate = startDate;
-        this.endDate = endDate;
+    @DatabaseField(generatedId = true, columnName = CustomContentProvider.KEY_ID)
+    public int id;
+
+    @DatabaseField
+    public String period;
+
+    @DatabaseField
+    public int dayNumber;
+
+    public LecturePeriod() {
+        super();
+    }
+
+    public LecturePeriod(String period, int dayNumber) {
+        this.period = period;
+        this.dayNumber = dayNumber;
     }
 
 }

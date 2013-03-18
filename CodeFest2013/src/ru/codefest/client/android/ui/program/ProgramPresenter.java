@@ -2,7 +2,7 @@ package ru.codefest.client.android.ui.program;
 
 import java.util.List;
 
-import ru.codefest.client.android.dao.LectureDao;
+import ru.codefest.client.android.dao.CodeFestDao;
 import ru.codefest.client.android.model.Lecture;
 import android.os.AsyncTask;
 
@@ -23,8 +23,9 @@ public class ProgramPresenter {
 
             @Override
             protected Void doInBackground(Void... params) {
-                lectures = new LectureDao(fragment.getSherlockActivity(),
-                        new BinderHelper()).getLectureList();
+                lectures = new CodeFestDao(fragment.getSherlockActivity(),
+                        new BinderHelper()).getList(Lecture.class,
+                        Lecture.TABLE_NAME);
                 return null;
             }
 

@@ -59,7 +59,7 @@ public class CodeFestActivity extends CodeFestBaseActivity {
     static Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            Log.d("xxxxx", "get data");
+            Log.i("CodeFestParser!!!", "Program parsed successful!");
             super.handleMessage(msg);
         }
     };
@@ -73,7 +73,7 @@ public class CodeFestActivity extends CodeFestBaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getTitle().equals(getString(R.string.refresh_menu))) {
+        if (item.getItemId() == R.id.refreshMenuItem) {
             ServiceHelper.refreshProgram(this, handler);
         }
         return super.onOptionsItemSelected(item);

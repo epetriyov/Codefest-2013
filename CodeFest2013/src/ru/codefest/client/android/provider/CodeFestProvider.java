@@ -1,6 +1,8 @@
 package ru.codefest.client.android.provider;
 
+import ru.codefest.client.android.model.Category;
 import ru.codefest.client.android.model.Lecture;
+import ru.codefest.client.android.model.LecturePeriod;
 import android.content.UriMatcher;
 import android.net.Uri;
 
@@ -9,7 +11,7 @@ import com.petriyov.android.libs.db.CustomDatabaseHelper;
 
 public class CodeFestProvider extends CustomContentProvider {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String DATABASE_NAME = "codeFest2013.db";
 
@@ -18,7 +20,8 @@ public class CodeFestProvider extends CustomContentProvider {
     private static final Uri URI_PREFIX = Uri.parse("content://" + CONTENT_URI
             + "/");
 
-    private static final Class<?>[] TABLES = { Lecture.class };
+    private static final Class<?>[] TABLES = { Category.class,
+            LecturePeriod.class, Lecture.class };
 
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);

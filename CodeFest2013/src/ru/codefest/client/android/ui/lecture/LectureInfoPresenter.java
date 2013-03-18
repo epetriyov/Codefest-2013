@@ -1,6 +1,6 @@
 package ru.codefest.client.android.ui.lecture;
 
-import ru.codefest.client.android.dao.LectureDao;
+import ru.codefest.client.android.dao.CodeFestDao;
 import ru.codefest.client.android.model.Lecture;
 import android.os.AsyncTask;
 
@@ -21,7 +21,7 @@ public class LectureInfoPresenter {
 
             @Override
             protected Void doInBackground(Void... params) {
-                lecture = new LectureDao(activity.getContext(),
+                lecture = new CodeFestDao(activity.getContext(),
                         new BinderHelper()).getLectureById(lectureId);
                 return null;
             }
