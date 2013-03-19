@@ -1,5 +1,6 @@
 package ru.codefest.client.android;
 
+import ru.codefest.client.android.provider.DatabaseHelper;
 import android.app.Application;
 
 public class CodeFestApplication extends Application {
@@ -15,6 +16,7 @@ public class CodeFestApplication extends Application {
         super.onCreate();
         instance = this;
         ImageLoaderSingleton.initImageLoader(getApplicationContext());
+        DatabaseHelper.copyDbFromAssets(this);
     }
 
 }

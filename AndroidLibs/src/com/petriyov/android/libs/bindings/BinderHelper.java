@@ -132,7 +132,8 @@ public class BinderHelper {
         fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
         // fields.addAll(Arrays.asList(clazz.getSuperclass().getDeclaredFields()));
         for (Field field : fields) {
-            if (!Modifier.isStatic(field.getModifiers())) {
+            if (!Modifier.isStatic(field.getModifiers())
+                    && field.getDeclaredAnnotations().length > 0) {
                 setFieldValue(field, object, cursor);
             }
         }

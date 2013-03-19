@@ -16,7 +16,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.petriyov.android.libs.db.CustomDatabaseHelper;
+import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.petriyov.android.libs.log.CustomLog;
 import com.petriyov.android.libs.utils.UriUtils;
 
@@ -32,7 +32,7 @@ public class CustomContentProvider extends ContentProvider {
 
     protected static UriMatcher uriMatcher;
 
-    protected CustomDatabaseHelper dbHelper;
+    protected OrmLiteSqliteOpenHelper dbHelper;
 
     protected String typePrefix;
 

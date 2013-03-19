@@ -13,4 +13,8 @@
     <string name="error_client_protocol">Ошибка сервера Twitter</string>
     <string name="error_io">Нет интернет-соединения</string>
 
+    <!-- lecture periods adapter -->
+    <string name="first_day">30 марта</string>
+    <string name="second_day">31 марта</string>
+    
 </resources>

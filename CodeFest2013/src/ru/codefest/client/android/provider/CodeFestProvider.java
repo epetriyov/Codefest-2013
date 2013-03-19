@@ -7,13 +7,12 @@ import android.content.UriMatcher;
 import android.net.Uri;
 
 import com.petriyov.android.libs.contentprovider.CustomContentProvider;
-import com.petriyov.android.libs.db.CustomDatabaseHelper;
 
 public class CodeFestProvider extends CustomContentProvider {
 
-    private static final int DATABASE_VERSION = 2;
+    static final int DATABASE_VERSION = 2;
 
-    private static final String DATABASE_NAME = "codeFest2013.db";
+    static final String DATABASE_NAME = "codefest.db";
 
     public static final String CONTENT_URI = "ru.codefest.provider.data";
 
@@ -39,7 +38,7 @@ public class CodeFestProvider extends CustomContentProvider {
 
     @Override
     public boolean onCreate() {
-        dbHelper = new CustomDatabaseHelper(getContext(), DATABASE_NAME,
+        dbHelper = new DatabaseHelper(getContext(), DATABASE_NAME,
                 DATABASE_VERSION, TABLES);
         typePrefix = "vnd.android.cursor.dir/vnd.privatemanager.";
         return super.onCreate();

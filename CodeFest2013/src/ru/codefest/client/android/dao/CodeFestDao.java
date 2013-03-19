@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.os.RemoteException;
 
 import com.petriyov.android.libs.bindings.BinderHelper;
+import com.petriyov.android.libs.contentprovider.CustomContentProvider;
 
 public class CodeFestDao {
 
@@ -53,12 +54,28 @@ public class CodeFestDao {
         }
     }
 
+    public Category getCategoryById(int categoryId) {
+        List<Category> list = new ArrayList<Category>();
+        Cursor cursor = context.getContentResolver().query(
+                CodeFestProvider.getUri(Category.TABLE_NAME), null,
+                CustomContentProvider.KEY_ID + " = ?1",
+                new String[] { String.valueOf(categoryId) }, null);
+        if (cursor != null) {
+            list = binderHelper.adaptListFromCursor(cursor, Category.class);
+            cursor.close();
+        }
+        if (list.size() > 0) {
+            return list.get(0);
+        }
+        return null;
+    }
+
     public Lecture getLectureById(int lectureId) {
         List<Lecture> list = new ArrayList<Lecture>();
         Cursor cursor = context.getContentResolver().query(
                 CodeFestProvider.getUri(Lecture.TABLE_NAME), null,
-                "WHERE _ID = ?1", new String[] { String.valueOf(lectureId) },
-                null);
+                CustomContentProvider.KEY_ID + " = ?1",
+                new String[] { String.valueOf(lectureId) }, null);
         if (cursor != null) {
             list = binderHelper.adaptListFromCursor(cursor, Lecture.class);
             cursor.close();
@@ -67,6 +84,21 @@ public class CodeFestDao {
             return list.get(0);
         }
         return null;
+    }
+
+    public List<Lecture> getLecturesByPeriodId(int periodId) {
+        List<Lecture> lectureList = new ArrayList<Lecture>();
+        Cursor cursor = context.getContentResolver().query(
+                CodeFestProvider.getUri(Lecture.TABLE_NAME), null,
+                Lecture.PERIOD_ID + " = ?1",
+                new String[] { String.valueOf(periodId) }, Lecture.CATEGORY_ID);
+        if (cursor != null) {
+            lectureList = binderHelper.adaptListFromCursor(cursor,
+                    Lecture.class);
+            cursor.close();
+        }
+        return lectureList;
+
     }
 
     public <T extends CodeFestItem> List<T> getList(Class<T> clazz,

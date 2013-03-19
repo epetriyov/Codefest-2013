@@ -4,61 +4,49 @@ import java.util.List;
 
 import ru.codefest.client.android.R;
 import ru.codefest.client.android.model.Lecture;
+import ru.codefest.client.android.model.LecturePeriod;
 import ru.codefest.client.android.ui.ActivityTransition;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
 public final class ProgramFragment extends SherlockFragment implements
-        IProgramFragment, OnItemClickListener {
+        IProgramFragment, OnChildClickListener {
 
-    private ListView programListView;
+    private ExpandableListView programListView;
 
     private ProgramAdapter programAdapter;
 
     @Override
+    public boolean onChildClick(ExpandableListView arg0, View arg1,
+            int groupPosition, int childPosition, long id) {
+        LecturePeriod period = programAdapter.getGroup(groupPosition);
+        Lecture lecture = period.getLectureList().get(childPosition);
+        ActivityTransition.openLectureInfo(getSherlockActivity(), lecture.id);
+        return false;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        programListView = (ListView) inflater.inflate(
-                R.layout.view_abstract_list, container, false);
+        programListView = (ExpandableListView) inflater.inflate(
+                R.layout.frag_program, container, false);
         programAdapter = new ProgramAdapter(getActivity());
         programListView.setAdapter(programAdapter);
-        programListView.setOnItemClickListener(this);
+        programListView.setOnChildClickListener(this);
         ProgramPresenter presenter = new ProgramPresenter(this);
         presenter.initProgramList();
         return programListView;
     }
 
     @Override
-    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-        ActivityTransition.openLectureInfo(getSherlockActivity(),
-                ((Lecture) programAdapter.getItem(arg2)).id);
-    }
-
-    @Override
-    public void updateProgramList(List<Lecture> lectures) {
-        programAdapter.clear();
-        if (lectures.size() > 0) {
-            // int categoryCounter = 0;
-            // programAdapter.addItem(categories.get(categoryCounter),
-            // R.layout.adt_category, false);
-            // for (int i = 0; i < lectures.size(); i++) {
-            // if (i > 0
-            // && !lectures.get(i).categoryName.equals(lectures
-            // .get(i - 1).categoryName)) {
-            // programAdapter.addItem(categories.get(++categoryCounter),
-            // R.layout.adt_category, false);
-            // }
-            // programAdapter.addItem(lectures.get(i), R.layout.adt_program,
-            // true);
-            // }
-        }
+    public void updateProgramList(List<LecturePeriod> lecturePeriods) {
+        programAdapter.setPeriods(lecturePeriods);
         programAdapter.notifyDataSetChanged();
 
     }

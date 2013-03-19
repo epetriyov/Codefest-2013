@@ -12,6 +12,10 @@ public class Lecture extends CodeFestItem {
 
     public static final String TABLE_NAME = "Lecture";
 
+    public static final String PERIOD_ID = "periodId";
+
+    public static final String CATEGORY_ID = "categoryId";
+
     @DatabaseField(generatedId = true, columnName = CustomContentProvider.KEY_ID)
     public int id;
 

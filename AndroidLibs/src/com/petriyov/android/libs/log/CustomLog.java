@@ -17,6 +17,10 @@ public class CustomLog {
         Log.e(tag, message);
     }
 
+    public static void i(String tag, String message) {
+        Log.i(tag, message);
+    }
+
     public static void logToFile(String url, String message) {
         BufferedWriter out = null;
         try {
