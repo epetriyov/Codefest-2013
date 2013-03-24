@@ -1,7 +1,6 @@
 package ru.codefest.client.android.ui.lecture;
 
 import ru.codefest.client.android.R;
-import ru.codefest.client.android.model.Lecture;
 import ru.codefest.client.android.ui.CodeFestBaseActivity;
 import android.content.Context;
 import android.os.Bundle;
@@ -24,8 +23,9 @@ public class LectureInfoActivity extends CodeFestBaseActivity implements
     }
 
     @Override
-    public void showLectureInfo(Lecture lecture) {
-        webView.loadData(lecture.lectureDescription, "'text/html'", "UTF-8");
+    public void showLectureInfo(String lectureDescription) {
+        webView.loadDataWithBaseURL(null, lectureDescription, "text/html",
+                "UTF-8", null);
 
     }
 

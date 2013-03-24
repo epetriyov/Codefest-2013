@@ -31,6 +31,8 @@ public class CodeFestHtmlParser implements IWebParser {
 
     private static final String PEOPLE_INFO_COMPANY_CLASS = "b-people-info__company";
 
+    private static final String SECTION_PREVIEW = "b-section-preview";
+
     private static final String LECTURE_CLASS = "b-people-prev__doclad";
 
     private static final String START_LECTURE_CLASS = "b-section__title-text";
@@ -118,7 +120,7 @@ public class CodeFestHtmlParser implements IWebParser {
             int dayCounter = 1;
             while (dayIterator.hasNext()) {
                 Elements lectureBlocks = dayIterator.next().getElementsByClass(
-                        LECTURE_PERIOD_CLASS_NAME);
+                        SECTION_PREVIEW);
                 Iterator<Element> lecturerIterator = lectureBlocks.iterator();
                 Element currentLectureElement = null;
                 LecturePeriod currentLecturePeriod = null;
@@ -126,15 +128,19 @@ public class CodeFestHtmlParser implements IWebParser {
                 String endLecture = null;
                 while (lecturerIterator.hasNext()) {
                     currentLectureElement = lecturerIterator.next();
-                    startLecture = currentLectureElement
-                            .getElementsByClass(START_LECTURE_CLASS).get(0)
-                            .child(0).ownText();
-                    endLecture = currentLectureElement
-                            .getElementsByClass(END_LECTURE_CLASS).get(0)
-                            .ownText();
-                    currentLecturePeriod = new LecturePeriod(startLecture + "-"
-                            + endLecture, dayCounter);
-                    lecturerPeriodList.add(currentLecturePeriod);
+                    Elements articles = currentLectureElement
+                            .getElementsByTag("article");
+                    if (!articles.isEmpty()) {
+                        startLecture = currentLectureElement
+                                .getElementsByClass(START_LECTURE_CLASS).get(0)
+                                .child(0).ownText();
+                        endLecture = currentLectureElement
+                                .getElementsByClass(END_LECTURE_CLASS).get(0)
+                                .ownText();
+                        currentLecturePeriod = new LecturePeriod(startLecture
+                                + "-" + endLecture, dayCounter);
+                        lecturerPeriodList.add(currentLecturePeriod);
+                    }
                 }
                 dayCounter++;
             }
@@ -178,7 +184,8 @@ public class CodeFestHtmlParser implements IWebParser {
             lecturerCompany = aElement
                     .getElementsByClass(PEOPLE_INFO_COMPANY_CLASS).get(0)
                     .ownText();
-            currentLecture.reporterInfo = lecturerName + " " + lecturerCompany;
+            currentLecture.reporterName = lecturerName;
+            currentLecture.reporterCompany = lecturerCompany;
             Element a2Element = currentLectureElement
                     .getElementsByClass(LECTURE_CLASS).get(0).child(0);
             currentLecture.lectureDescription = parseLectureDescription(programUrl

@@ -80,7 +80,7 @@ public class ProgramAdapter extends BaseExpandableListAdapter {
         }
         Lecture currentLecture = getChild(groupPosition, childPosition);
         viewHolder.lectureName.setText(currentLecture.name);
-        viewHolder.lecturerInfo.setText(currentLecture.reporterInfo);
+        viewHolder.lecturerInfo.setText(currentLecture.reporterName);
         viewHolder.categoryName.setText(currentLecture.categoryName);
         viewHolder.categoryName.setBackgroundColor(Color
                 .parseColor(currentLecture.categoryColor));

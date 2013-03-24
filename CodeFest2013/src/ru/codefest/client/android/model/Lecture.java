@@ -23,7 +23,10 @@ public class Lecture extends CodeFestItem {
     public String name;
 
     @DatabaseField
-    public String reporterInfo;
+    public String reporterName;
+
+    @DatabaseField
+    public String reporterCompany;
 
     @DatabaseField
     public String reporterDescription;
@@ -53,8 +56,10 @@ public class Lecture extends CodeFestItem {
         StringBuilder builder = new StringBuilder();
         builder.append("Lecture [name=");
         builder.append(name);
-        builder.append(", \nreporterInfo=");
-        builder.append(reporterInfo);
+        builder.append(", \nreporterName=");
+        builder.append(reporterName);
+        builder.append(", \nreporterCompany=");
+        builder.append(reporterCompany);
         builder.append(", \nreporterDescription=");
         builder.append(reporterDescription);
         builder.append(", \nreporterPhotoUrl=");

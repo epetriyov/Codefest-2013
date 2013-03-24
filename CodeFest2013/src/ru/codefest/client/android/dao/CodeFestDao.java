@@ -62,7 +62,6 @@ public class CodeFestDao {
                 new String[] { String.valueOf(categoryId) }, null);
         if (cursor != null) {
             list = binderHelper.adaptListFromCursor(cursor, Category.class);
-            cursor.close();
         }
         if (list.size() > 0) {
             return list.get(0);
@@ -78,7 +77,6 @@ public class CodeFestDao {
                 new String[] { String.valueOf(lectureId) }, null);
         if (cursor != null) {
             list = binderHelper.adaptListFromCursor(cursor, Lecture.class);
-            cursor.close();
         }
         if (list.size() > 0) {
             return list.get(0);
@@ -95,7 +93,6 @@ public class CodeFestDao {
         if (cursor != null) {
             lectureList = binderHelper.adaptListFromCursor(cursor,
                     Lecture.class);
-            cursor.close();
         }
         return lectureList;
 
@@ -108,8 +105,24 @@ public class CodeFestDao {
                 CodeFestProvider.getUri(tableName), null, null, null, null);
         if (cursor != null) {
             list = binderHelper.adaptListFromCursor(cursor, clazz);
-            cursor.close();
         }
         return list;
+    }
+
+    public List<LecturePeriod> getNotEmptyPeriods() {
+        List<LecturePeriod> list = new ArrayList<LecturePeriod>();
+        Cursor cursor = context.getContentResolver().query(
+                CodeFestProvider.getUri(LecturePeriod.TABLE_NAME),
+                null,
+                "exists (select " + CustomContentProvider.KEY_ID
+                        + " from lecture where " + Lecture.PERIOD_ID
+                        + " = lecturePeriod." + CustomContentProvider.KEY_ID
+                        + ")", null, null);
+        if (cursor != null) {
+            list = binderHelper
+                    .adaptListFromCursor(cursor, LecturePeriod.class);
+        }
+        return list;
+
     }
 }

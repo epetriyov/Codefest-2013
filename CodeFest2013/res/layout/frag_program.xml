@@ -4,5 +4,6 @@
     android:layout_height="match_parent"
     android:divider="@android:color/black"
     android:dividerHeight="1dp"
+    android:groupIndicator="@drawable/bg_expandable_group_view"
     android:listSelector="@android:drawable/list_selector_background"
     android:scrollingCache="false" />
