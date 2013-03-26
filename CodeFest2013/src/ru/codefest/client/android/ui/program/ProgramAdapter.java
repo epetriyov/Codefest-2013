@@ -3,6 +3,8 @@ package ru.codefest.client.android.ui.program;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.petriyov.android.libs.ui.views.VerticalTextView;
+
 import ru.codefest.client.android.R;
 import ru.codefest.client.android.model.Lecture;
 import ru.codefest.client.android.model.LecturePeriod;
@@ -21,7 +23,7 @@ public class ProgramAdapter extends BaseExpandableListAdapter {
 
         protected TextView lecturerInfo;
 
-        protected TextView categoryName;
+        protected VerticalTextView categoryName;
 
     }
 
@@ -72,7 +74,7 @@ public class ProgramAdapter extends BaseExpandableListAdapter {
                     .findViewById(R.id.lectureName);
             viewHolder.lecturerInfo = (TextView) view
                     .findViewById(R.id.lecturerInfo);
-            viewHolder.categoryName = (TextView) view
+            viewHolder.categoryName = (VerticalTextView) view
                     .findViewById(R.id.categoryName);
             view.setTag(viewHolder);
         } else {
@@ -80,7 +82,11 @@ public class ProgramAdapter extends BaseExpandableListAdapter {
         }
         Lecture currentLecture = getChild(groupPosition, childPosition);
         viewHolder.lectureName.setText(currentLecture.name);
-        viewHolder.lecturerInfo.setText(currentLecture.reporterName);
+        StringBuilder reporterInfoBuilder = new StringBuilder();
+        reporterInfoBuilder.append(currentLecture.reporterName);
+        reporterInfoBuilder.append(", ");
+        reporterInfoBuilder.append(currentLecture.reporterCompany);
+        viewHolder.lecturerInfo.setText(reporterInfoBuilder.toString());
         viewHolder.categoryName.setText(currentLecture.categoryName);
         viewHolder.categoryName.setBackgroundColor(Color
                 .parseColor(currentLecture.categoryColor));

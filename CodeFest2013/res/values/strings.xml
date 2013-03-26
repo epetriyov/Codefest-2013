@@ -17,4 +17,7 @@
     <string name="first_day">30 марта</string>
     <string name="second_day">31 марта</string>
     
+    <!-- lecture info -->
+    <string name = "about_reporter">О докладчике</string>
+    
 </resources>

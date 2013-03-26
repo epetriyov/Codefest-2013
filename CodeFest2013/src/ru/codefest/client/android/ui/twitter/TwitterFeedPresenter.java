@@ -34,7 +34,7 @@ public class TwitterFeedPresenter {
                         new Transport(new DefaultHttpClient()));
                 try {
                     tweets = twitterApi.getTweets(
-                            CodeFestTwitterApi.CODEFEST_USER, 10, 1);
+                            CodeFestTwitterApi.CODEFEST_USER, 100, 1);
                 } catch (ClientProtocolException e) {
                     exception = new IOException(fragment.getSherlockActivity()
                             .getString(R.string.error_client_protocol));

@@ -39,8 +39,6 @@ public class CodeFestHtmlParser implements IWebParser {
 
     private static final String END_LECTURE_CLASS = "b-section__title-date";
 
-    private static final String LECTURE_PERIOD_CLASS_NAME = "b-section__title";
-
     public static final String CODEFEST_URL = "http://2013.codefest.ru";
 
     /**
@@ -175,10 +173,9 @@ public class CodeFestHtmlParser implements IWebParser {
             if (aElement.attr("href").isEmpty()) {
                 continue;
             }
-            currentLecture.reporterDescription = parseLectrurerDescription(programUrl
-                    + aElement.attr("href"));
-            currentLecture.reporterPhotoUrl = programUrl
-                    + aElement.getElementsByTag("img").attr("src");
+            currentLecture.reporterDescription = parseLectrurerDescription(
+                    programUrl, currentLecture,
+                    programUrl + aElement.attr("href"));
             lecturerName = aElement.getElementsByClass(PEOPLE_INFO_NAME_CLASS)
                     .get(0).child(0).ownText();
             lecturerCompany = aElement
@@ -196,11 +193,19 @@ public class CodeFestHtmlParser implements IWebParser {
         }
     }
 
-    private String parseLectrurerDescription(String lecturerUrl)
-            throws IOException {
+    private String parseLectrurerDescription(String programUrl,
+            Lecture currentLecture, String lecturerUrl) throws IOException {
         Document doc = Jsoup.connect(lecturerUrl).get();
         Element oratorInfo = doc.getElementsByClass(ORATOR_DESCRIPTION).get(0);
-        oratorInfo.getElementsByTag("img").get(0).remove();
+        Elements iFrames = oratorInfo.getElementsByTag("iframe");
+        Iterator<Element> lectureIterator = iFrames.iterator();
+        while (lectureIterator.hasNext()) {
+            lectureIterator.next().remove();
+        }
+        Element imgElement = oratorInfo.getElementsByTag("img").get(0);
+        currentLecture.reporterPhotoUrl = programUrl
+                + imgElement.getElementsByTag("img").attr("src");
+        imgElement.remove();
         return oratorInfo.html();
     }
 
