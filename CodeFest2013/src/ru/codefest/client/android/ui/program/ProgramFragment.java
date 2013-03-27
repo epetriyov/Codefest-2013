@@ -22,6 +22,13 @@ public final class ProgramFragment extends SherlockFragment implements
 
     private ProgramAdapter programAdapter;
 
+    private View progressBar;
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
+
     @Override
     public boolean onChildClick(ExpandableListView arg0, View arg1,
             int groupPosition, int childPosition, long id) {
@@ -34,19 +41,31 @@ public final class ProgramFragment extends SherlockFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        programListView = (ExpandableListView) inflater.inflate(
-                R.layout.frag_program, container, false);
+        View view = inflater.inflate(R.layout.frag_program, container, false);
+        programListView = (ExpandableListView) view
+                .findViewById(R.id.programList);
+        progressBar = view.findViewById(R.id.progressBarLayout);
         programAdapter = new ProgramAdapter(getActivity());
         programListView.setAdapter(programAdapter);
         programListView.setOnChildClickListener(this);
         ProgramPresenter presenter = new ProgramPresenter(this);
         presenter.initProgramList();
-        return programListView;
+        return view;
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+
     }
 
     @Override
     public void updateProgramList(List<LecturePeriod> lecturePeriods) {
         programAdapter.setPeriods(lecturePeriods);
+        int count = programAdapter.getGroupCount();
+        for (int i = 0; i < count; i++) {
+            programListView.expandGroup(i);
+        }
         programAdapter.notifyDataSetChanged();
 
     }

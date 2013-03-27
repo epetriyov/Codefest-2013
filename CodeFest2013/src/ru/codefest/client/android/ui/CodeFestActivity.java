@@ -1,7 +1,7 @@
 package ru.codefest.client.android.ui;
 
 import ru.codefest.client.android.R;
-import ru.codefest.client.android.service.ServiceHelper;
+import ru.codefest.client.android.ui.favorites.FavoritesFragment;
 import ru.codefest.client.android.ui.program.ProgramFragment;
 import ru.codefest.client.android.ui.twitter.TwitterFeedFragment;
 import android.os.Bundle;
@@ -15,7 +15,6 @@ import android.util.Log;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 import com.viewpagerindicator.TabPageIndicator;
 
 public class CodeFestActivity extends CodeFestBaseActivity {
@@ -27,7 +26,7 @@ public class CodeFestActivity extends CodeFestBaseActivity {
         public CodeFestPagerAdapter(FragmentManager fm) {
             super(fm);
             content = new String[] { getString(R.string.programTabText),
-                    // getString(R.string.favoritesTabText),
+                    getString(R.string.favoritesTabText),
                     getString(R.string.chatTabText) };
         }
 
@@ -38,15 +37,17 @@ public class CodeFestActivity extends CodeFestBaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-            case 0:
-                return new ProgramFragment();
-            case 1:
-                return new TwitterFeedFragment();
-                // case 2:
-                // return new ProgramFragment();
-            default:
-                return new ProgramFragment();
+            if (position == 0) {
+                ProgramFragment programFragment = new ProgramFragment();
+                return programFragment;
+            } else if (position == 1) {
+                FavoritesFragment favoritesFragment = new FavoritesFragment();
+                return favoritesFragment;
+            } else if (position == 2) {
+                TwitterFeedFragment twitterFragment = new TwitterFeedFragment();
+                return twitterFragment;
+            } else {
+                return null;
             }
         }
 
@@ -73,16 +74,17 @@ public class CodeFestActivity extends CodeFestBaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.refreshMenuItem) {
-            ServiceHelper.refreshProgram(this, handler);
+        if (item.getItemId() == R.id.aboutMenuItem) {
         }
+        // else if (item.getItemId() == R.id.refreshMenuItem) {
+        // ServiceHelper.refreshProgram(this, handler);
+        // }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.act_codefest);
         FragmentStatePagerAdapter adapter = new CodeFestPagerAdapter(
                 getSupportFragmentManager());

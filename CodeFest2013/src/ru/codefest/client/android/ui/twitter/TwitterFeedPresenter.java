@@ -36,12 +36,18 @@ public class TwitterFeedPresenter {
                     tweets = twitterApi.getTweets(
                             CodeFestTwitterApi.CODEFEST_USER, 100, 1);
                 } catch (ClientProtocolException e) {
-                    exception = new IOException(fragment.getSherlockActivity()
-                            .getString(R.string.error_client_protocol));
+                    if (fragment.getSherlockActivity() != null) {
+                        exception = new IOException(fragment
+                                .getSherlockActivity().getString(
+                                        R.string.error_client_protocol));
+                    }
                     e.printStackTrace();
                 } catch (IOException e) {
-                    exception = new IOException(fragment.getSherlockActivity()
-                            .getString(R.string.error_io));
+                    if (fragment.getSherlockActivity() != null) {
+                        exception = new IOException(fragment
+                                .getSherlockActivity().getString(
+                                        R.string.error_io));
+                    }
                     e.printStackTrace();
                 }
                 return null;
@@ -49,19 +55,22 @@ public class TwitterFeedPresenter {
 
             @Override
             protected void onPostExecute(Void result) {
-                if (exception != null) {
-                    Toast.makeText(fragment.getSherlockActivity(),
-                            exception.getMessage(), Toast.LENGTH_LONG).show();
+                if (fragment.getSherlockActivity() != null) {
+                    if (exception != null) {
+                        Toast.makeText(fragment.getSherlockActivity(),
+                                exception.getMessage(), Toast.LENGTH_LONG)
+                                .show();
+                    }
+                    fragment.hideProgress();
+                    fragment.updateTwitterFeed(tweets);
                 }
-                fragment.getSherlockActivity()
-                        .setProgressBarIndeterminateVisibility(false);
-                fragment.updateTwitterFeed(tweets);
             };
 
             @Override
             protected void onPreExecute() {
-                fragment.getSherlockActivity()
-                        .setProgressBarIndeterminateVisibility(true);
+                if (fragment.getSherlockActivity() != null) {
+                    fragment.showProgress();
+                }
             };
         }.execute();
     }

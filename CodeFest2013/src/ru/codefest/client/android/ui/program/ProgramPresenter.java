@@ -25,35 +25,39 @@ public class ProgramPresenter {
 
             @Override
             protected Void doInBackground(Void... params) {
-                CodeFestDao dao = new CodeFestDao(
-                        fragment.getSherlockActivity(), new BinderHelper());
-                lecturePeriods = dao.getList(LecturePeriod.class,
-                        LecturePeriod.TABLE_NAME);
-                for (LecturePeriod period : lecturePeriods) {
-                    List<Lecture> lecturesList = dao
-                            .getLecturesByPeriodId(period.id);
-                    for (Lecture lecture : lecturesList) {
-                        Category category = dao
-                                .getCategoryById(lecture.categoryId);
-                        lecture.categoryName = category.name;
-                        lecture.categoryColor = category.color;
+                if (fragment.getSherlockActivity() != null) {
+                    CodeFestDao dao = new CodeFestDao(
+                            fragment.getSherlockActivity(), new BinderHelper());
+                    lecturePeriods = dao.getList(LecturePeriod.class,
+                            LecturePeriod.TABLE_NAME);
+                    for (LecturePeriod period : lecturePeriods) {
+                        List<Lecture> lecturesList = dao
+                                .getLecturesByPeriodId(period.id);
+                        for (Lecture lecture : lecturesList) {
+                            Category category = dao
+                                    .getCategoryById(lecture.categoryId);
+                            lecture.categoryName = category.name;
+                            lecture.categoryColor = category.color;
+                        }
+                        period.setLectureList(lecturesList);
                     }
-                    period.setLectureList(lecturesList);
                 }
                 return null;
             }
 
             @Override
             protected void onPostExecute(Void result) {
-                fragment.getSherlockActivity()
-                        .setProgressBarIndeterminateVisibility(false);
-                fragment.updateProgramList(lecturePeriods);
+                if (fragment.getSherlockActivity() != null) {
+                    fragment.hideProgress();
+                    fragment.updateProgramList(lecturePeriods);
+                }
             };
 
             @Override
             protected void onPreExecute() {
-                fragment.getSherlockActivity()
-                        .setProgressBarIndeterminateVisibility(true);
+                if (fragment.getSherlockActivity() != null) {
+                    fragment.showProgress();
+                }
             };
         }.execute();
     }

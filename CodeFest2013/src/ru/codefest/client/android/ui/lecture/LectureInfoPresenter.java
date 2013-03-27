@@ -30,27 +30,31 @@ public class LectureInfoPresenter {
             @Override
             protected void onPostExecute(Void result) {
                 activity.setProgressBarIndeterminateVisibility(false);
-                StringBuilder htmlBuilder = new StringBuilder();
-                htmlBuilder
-                        .append("<!DOCTYPE HTML> <HTML> <BODY> <center> <h3>");
-                htmlBuilder.append(lecture.name);
-                htmlBuilder.append("</h3> </center>");
-                htmlBuilder.append(lecture.lectureDescription);
-                htmlBuilder.append("<center> <h4>");
-                htmlBuilder.append(activity.getContext().getString(
-                        R.string.about_reporter));
-                htmlBuilder.append("</h4> </center>");
-                htmlBuilder.append("<img src=\"");
-                htmlBuilder.append(lecture.reporterPhotoUrl);
-                htmlBuilder.append("\" width = \"100%\" height = \"auto\"/>");
-                htmlBuilder.append("<center>");
-                htmlBuilder.append(lecture.reporterName);
-                htmlBuilder.append(", ");
-                htmlBuilder.append(lecture.reporterCompany);
-                htmlBuilder.append("</center>");
-                htmlBuilder.append(lecture.reporterDescription);
-                htmlBuilder.append("</BODY> </HTML>");
-                activity.showLectureInfo(htmlBuilder.toString());
+                activity.setShareInfo(lecture);
+                if (lecture != null) {
+                    StringBuilder htmlBuilder = new StringBuilder();
+                    htmlBuilder
+                            .append("<!DOCTYPE HTML> <HTML> <BODY> <center> <h3>");
+                    htmlBuilder.append(lecture.name);
+                    htmlBuilder.append("</h3> </center>");
+                    htmlBuilder.append(lecture.lectureDescription);
+                    htmlBuilder.append("<center> <h4>");
+                    htmlBuilder.append(activity.getContext().getString(
+                            R.string.about_reporter));
+                    htmlBuilder.append("</h4> </center>");
+                    htmlBuilder.append("<img src=\"");
+                    htmlBuilder.append(lecture.reporterPhotoUrl);
+                    htmlBuilder
+                            .append("\" width = \"100%\" height = \"auto\"/>");
+                    htmlBuilder.append("<center>");
+                    htmlBuilder.append(lecture.reporterName);
+                    htmlBuilder.append(", ");
+                    htmlBuilder.append(lecture.reporterCompany);
+                    htmlBuilder.append("</center>");
+                    htmlBuilder.append(lecture.reporterDescription);
+                    htmlBuilder.append("</BODY> </HTML>");
+                    activity.showLectureInfo(htmlBuilder.toString());
+                }
             };
 
             @Override

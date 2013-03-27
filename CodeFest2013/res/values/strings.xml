@@ -1,13 +1,13 @@
 <resources>
 
-    <string name="app_name">CodeFest 2013</string>
+    <string name="app_name">CodeFest</string>
     <string name="programTabText">Программа</string>
     <string name="favoritesTabText">Избранное</string>
     <string name="chatTabText">#codefest</string>
 
     <!-- menu items -->
     <string name="refresh_menu">Refresh</string>
-    <string name="settings_menu">Settings</string>
+    <string name="about_menu">О приложении</string>
 
     <!-- error messages -->
     <string name="error_client_protocol">Ошибка сервера Twitter</string>
@@ -19,5 +19,8 @@
     
     <!-- lecture info -->
     <string name = "about_reporter">О докладчике</string>
+    
+    <!--  -->
+    <string name="action_bar_share_with">Поделиться через…</string> 
     
 </resources>

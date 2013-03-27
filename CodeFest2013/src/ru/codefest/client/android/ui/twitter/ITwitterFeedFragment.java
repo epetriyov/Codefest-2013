@@ -10,6 +10,10 @@ public interface ITwitterFeedFragment {
 
     SherlockFragmentActivity getSherlockActivity();
 
+    void hideProgress();
+
+    void showProgress();
+
     void updateTwitterFeed(List<Tweet> tweets);
 
 }

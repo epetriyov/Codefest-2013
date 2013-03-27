@@ -1,10 +1,38 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.Sherlock" />
+    <style name="AppTheme" parent="Theme.Sherlock">
+        <item name="actionBarStyle">@style/Widget.AppTheme.ActionBar</item>
+        <item name="android:actionBarStyle">@style/Widget.AppTheme.ActionBar</item>
+    </style>
+
+    <style name="Widget.AppTheme.ActionBar" parent="Widget.Sherlock.ActionBar">
+  <item name="background">@drawable/bg_striped</item> 
+  <item name="android:background">@drawable/bg_striped</item> 
+  <item name="backgroundSplit">@drawable/bg_striped_split</item> 
+  <item name="android:backgroundSplit">@drawable/bg_striped_split</item> 
+    </style>
 
     <style name="TabsStyle" parent="AppTheme">
         <item name="vpiIconPageIndicatorStyle">@style/Widget.IconPageIndicator</item>
-        <item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator</item>
-    /></style>
+        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+    </style>
+
+    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
+        <item name="android:background">@drawable/tab_indicator_holo</item>
+        <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
+        <item name="android:textColor">@color/tabColor</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:divider">@drawable/custom_tab_indicator_divider</item>
+        <item name="android:dividerPadding">10dp</item>
+        <item name="android:showDividers">middle</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:fadingEdge">horizontal</item>
+        <item name="android:fadingEdgeLength">8dp</item>
+    </style>
+
+    <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
+        <item name="android:typeface">sans</item>
+    </style>
 
 </resources>

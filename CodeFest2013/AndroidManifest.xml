@@ -20,6 +20,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".ui.CodeFestActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/TabsStyle" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +28,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.lecture.LectureInfoActivity" />
+        <activity
+            android:name=".ui.lecture.LectureInfoActivity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name=".provider.CodeFestProvider"

@@ -3,4 +3,8 @@
 
     <color name="message_color">#0099CC</color>
     <color name="holo">#33b5e5</color>
+    <color name="tabColor">#FF555555</color>
+    <color name="themeColor">#E6001B</color>
+    <color name="progressBarBackground">#909090</color>
+
 </resources>

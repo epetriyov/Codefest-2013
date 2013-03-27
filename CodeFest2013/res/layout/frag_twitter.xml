@@ -3,17 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ExpandableListView
-        android:id="@+id/programList"
+    <ListView
+        android:id="@+id/twitterList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@null"
-        android:cacheColorHint="#00000000"
-        android:childDivider="#00000000"
-        android:descendantFocusability="afterDescendants"
         android:divider="@android:color/black"
         android:dividerHeight="1dp"
-        android:groupIndicator="@drawable/bg_expandable_group_view"
         android:listSelector="@android:drawable/list_selector_background"
         android:scrollingCache="false" />
 

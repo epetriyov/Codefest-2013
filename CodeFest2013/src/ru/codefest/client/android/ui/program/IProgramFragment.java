@@ -10,6 +10,10 @@ public interface IProgramFragment {
 
     SherlockFragmentActivity getSherlockActivity();
 
+    void hideProgress();
+
+    void showProgress();
+
     void updateProgramList(List<LecturePeriod> lecturePeriods);
 
 }

@@ -21,21 +21,34 @@ public final class TwitterFeedFragment extends SherlockFragment implements
 
     private TwitterFeedPresenter presenter;
 
+    private View progressBar;
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        twitterFeedListView = (ListView) inflater.inflate(
-                R.layout.view_abstract_list, container, false);
+        View view = inflater.inflate(R.layout.frag_twitter, container, false);
+        twitterFeedListView = (ListView) view.findViewById(R.id.twitterList);
+        progressBar = view.findViewById(R.id.progressBarLayout);
         twitterAdapter = new TwitterAdapter(getActivity());
         twitterFeedListView.setAdapter(twitterAdapter);
         presenter = new TwitterFeedPresenter(this);
-        return twitterFeedListView;
+        return view;
     }
 
     @Override
     public void onResume() {
         presenter.loadTwitterFeed();
         super.onResume();
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
