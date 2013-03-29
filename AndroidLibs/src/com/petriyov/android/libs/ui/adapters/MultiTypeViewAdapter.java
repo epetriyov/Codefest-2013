@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -41,6 +42,7 @@ public class MultiTypeViewAdapter extends BaseAdapter {
         }
     }
 
+    @SuppressLint("UseSparseArrays")
     private HashMap<Integer, IAdapterBinder> binders = new HashMap<Integer, IAdapterBinder>();
 
     private List<IAdapterBinder> bindersList = new ArrayList<IAdapterBinder>();
