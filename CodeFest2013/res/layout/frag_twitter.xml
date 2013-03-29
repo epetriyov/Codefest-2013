@@ -13,5 +13,6 @@
         android:scrollingCache="false" />
 
     <include layout="@layout/view_progress_bar" />
+    <include layout="@layout/view_no_results" />
 
 </FrameLayout>

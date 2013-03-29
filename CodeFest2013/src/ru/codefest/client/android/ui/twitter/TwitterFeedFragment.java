@@ -4,6 +4,7 @@ import java.util.List;
 
 import ru.codefest.client.android.R;
 import ru.codefest.client.android.model.Tweet;
+import ru.codefest.client.android.ui.CodeFestActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,19 @@ public final class TwitterFeedFragment extends SherlockFragment implements
 
     private View progressBar;
 
+    private View noResults;
+
+    @Override
+    public CodeFestActivity getCodeFestActivity() {
+        return (CodeFestActivity) super.getSherlockActivity();
+    }
+
+    @Override
+    public void hideNoResults() {
+        noResults.setVisibility(View.GONE);
+
+    }
+
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
@@ -34,6 +48,7 @@ public final class TwitterFeedFragment extends SherlockFragment implements
         View view = inflater.inflate(R.layout.frag_twitter, container, false);
         twitterFeedListView = (ListView) view.findViewById(R.id.twitterList);
         progressBar = view.findViewById(R.id.progressBarLayout);
+        noResults = view.findViewById(R.id.noResultsLayout);
         twitterAdapter = new TwitterAdapter(getActivity());
         twitterFeedListView.setAdapter(twitterAdapter);
         presenter = new TwitterFeedPresenter(this);
@@ -47,17 +62,27 @@ public final class TwitterFeedFragment extends SherlockFragment implements
     }
 
     @Override
+    public void showNoResults() {
+        noResults.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
+    public void updateList() {
+        // No impementation
+
+    }
+
+    @Override
     public void updateTwitterFeed(List<Tweet> tweets) {
         twitterAdapter.clear();
-        if (tweets != null) {
-            for (Tweet tweet : tweets) {
-                twitterAdapter.addItem(tweet, R.layout.adt_tweet, true);
-            }
+        for (Tweet tweet : tweets) {
+            twitterAdapter.addItem(tweet, R.layout.adt_tweet, true);
         }
         twitterAdapter.notifyDataSetChanged();
 

@@ -48,9 +48,12 @@ public class MultiTypeViewAdapter extends BaseAdapter {
     private List<Item> items = new ArrayList<Item>();
 
     public void addBinder(int layout, IAdapterBinder binder) {
-        this.binders.put(layout, binder);
-        this.bindersList.remove(binder);
+        IAdapterBinder oldBinder = binders.get(layout);
+        if (oldBinder != null) {
+            this.bindersList.remove(oldBinder);
+        }
         this.bindersList.add(binder);
+        this.binders.put(layout, binder);
     }
 
     public void addItem(Object data, int layout, boolean isEnable) {
@@ -87,12 +90,12 @@ public class MultiTypeViewAdapter extends BaseAdapter {
             }
         }
         return null;
-    };
+    }
 
     @Override
     public long getItemId(int position) {
         return position;
-    }
+    };
 
     @Override
     public int getItemViewType(int position) {
@@ -151,6 +154,10 @@ public class MultiTypeViewAdapter extends BaseAdapter {
             }
         }
         return false;
+    }
+
+    public void remove(int position) {
+        this.items.remove(position);
     }
 
     protected View getViewByType(int position, View convertView,

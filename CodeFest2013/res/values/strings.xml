@@ -32,5 +32,6 @@
 
     <!--  -->
     <string name="favoriteDescription">Избранное</string>
+    <string name="no_results">Список пуст</string>
 
 </resources>

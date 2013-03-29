@@ -99,9 +99,9 @@ public class SherlockListView extends ListView {
 
             // If there are no items selected we no longer need the selection
             // mode.
-            if (checkedItemCount == 0) {
-                mode.finish();
-            }
+            // if (checkedItemCount == 0) {
+            // mode.finish();
+            // }
         }
 
         @Override
@@ -186,11 +186,11 @@ public class SherlockListView extends ListView {
                     || (choiceMode == CHOICE_MODE_MULTIPLE_MODAL_COMPAT && actionMode != null)) {
                 boolean newValue = !getCheckedItemPositions().get(position);
                 setItemChecked(position, newValue);
-                if (actionMode != null) {
-                    choiceModeListener.onItemCheckedStateChanged(actionMode,
-                            position, id, newValue);
-                    dispatchItemClick = false;
-                }
+                // if (actionMode != null) {
+                // choiceModeListener.onItemCheckedStateChanged(actionMode,
+                // position, id, newValue);
+                // dispatchItemClick = false;
+                // }
                 checkStateChanged = true;
                 return false;
             } else if (choiceMode == CHOICE_MODE_SINGLE) {

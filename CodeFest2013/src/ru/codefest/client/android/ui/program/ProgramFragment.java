@@ -34,6 +34,8 @@ public final class ProgramFragment extends SherlockFragment implements
 
     private View progressBar;
 
+    private View noResults;
+
     private ProgramPresenter presenter;
 
     private static final String IS_FAVORITE = "isFavorites";
@@ -51,6 +53,11 @@ public final class ProgramFragment extends SherlockFragment implements
     @Override
     public final CodeFestActivity getCodeFestActivity() {
         return (CodeFestActivity) super.getSherlockActivity();
+    }
+
+    @Override
+    public void hideNoResults() {
+        noResults.setVisibility(View.GONE);
     }
 
     @Override
@@ -74,53 +81,65 @@ public final class ProgramFragment extends SherlockFragment implements
         programListView = (SherlockListView) view
                 .findViewById(R.id.programList);
         progressBar = view.findViewById(R.id.progressBarLayout);
+        noResults = view.findViewById(R.id.noResultsLayout);
         programAdapter = new ProgramAdapter(getCodeFestActivity());
         programListView.setAdapter(programAdapter);
         programListView.setOnItemClickListener(this);
-        programListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        programListView
-                .setMultiChoiceModeListener(new SherlockListView.MultiChoiceModeListenerCompat() {
+        if (!isFavorites) {
+            programListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+            programListView
+                    .setMultiChoiceModeListener(new SherlockListView.MultiChoiceModeListenerCompat() {
 
-                    @Override
-                    public boolean onActionItemClicked(ActionMode mode,
-                            MenuItem item) {
-                        if (item.getItemId() == R.id.actionmode_cancel) {
-                            clearLecturesSelection();
-                            mode.finish();
+                        private boolean isCancelClicked = false;
+
+                        @Override
+                        public boolean onActionItemClicked(ActionMode mode,
+                                MenuItem item) {
+                            if (item.getItemId() == R.id.actionmode_cancel) {
+                                presenter.initProgramList();
+                                isCancelClicked = true;
+                                mode.finish();
+                            }
+                            return true;
                         }
-                        return true;
-                    }
 
-                    @Override
-                    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                        MenuInflater inflater = mode.getMenuInflater();
-                        inflater.inflate(R.menu.context_menu, menu);
-                        MenuItem item = menu.findItem(R.id.action_text);
-                        View v = item.getActionView();
-                        if (v instanceof TextView) {
-                            ((TextView) v)
-                                    .setText(R.string.contextual_selection);
+                        @Override
+                        public boolean onCreateActionMode(ActionMode mode,
+                                Menu menu) {
+                            MenuInflater inflater = mode.getMenuInflater();
+                            inflater.inflate(R.menu.context_menu, menu);
+                            MenuItem item = menu.findItem(R.id.action_text);
+                            View v = item.getActionView();
+                            if (v instanceof TextView) {
+                                ((TextView) v)
+                                        .setText(R.string.contextual_selection);
+                            }
+                            showSelectionIcons();
+                            isCancelClicked = false;
+                            return true;
                         }
-                        return true;
-                    }
 
-                    @Override
-                    public void onDestroyActionMode(ActionMode mode) {
-                        saveSelection(programListView.getCheckedItemPositions());
-                    }
+                        @Override
+                        public void onDestroyActionMode(ActionMode mode) {
+                            if (!isCancelClicked) {
+                                presenter.saveSelection(programAdapter);
+                            }
+                            hideSelectionIcons();
+                        }
 
-                    @Override
-                    public void onItemCheckedStateChanged(ActionMode mode,
-                            int position, long id, boolean checked) {
+                        @Override
+                        public void onItemCheckedStateChanged(ActionMode mode,
+                                int position, long id, boolean checked) {
+                            updateFavoriteSelection(position);
+                        }
 
-                    }
-
-                    @Override
-                    public boolean onPrepareActionMode(ActionMode mode,
-                            Menu menu) {
-                        return false;
-                    }
-                });
+                        @Override
+                        public boolean onPrepareActionMode(ActionMode mode,
+                                Menu menu) {
+                            return false;
+                        }
+                    });
+        }
         presenter = new ProgramPresenter(this, isFavorites);
         presenter.initProgramList();
         return view;
@@ -147,8 +166,19 @@ public final class ProgramFragment extends SherlockFragment implements
     }
 
     @Override
+    public void showNoResults() {
+        noResults.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void updateList() {
+        presenter.initProgramList();
 
     }
 
@@ -156,17 +186,15 @@ public final class ProgramFragment extends SherlockFragment implements
     public void updateProgramList(List<LecturePeriod> lecturePeriods) {
         programAdapter.clear();
         List<Lecture> lectures = null;
-        if (lecturePeriods != null) {
-            for (LecturePeriod period : lecturePeriods) {
-                lectures = period.getLectureList();
-                if (!lectures.isEmpty()) {
-                    programAdapter.addItem(period, R.layout.adt_lecture_period,
-                            false);
-                    if (lectures != null) {
-                        for (Lecture lecture : lectures) {
-                            programAdapter.addItem(lecture,
-                                    R.layout.adt_lecture, true);
-                        }
+        for (LecturePeriod period : lecturePeriods) {
+            lectures = period.getLectureList();
+            if (!lectures.isEmpty()) {
+                programAdapter.addItem(period, R.layout.adt_lecture_period,
+                        false);
+                if (lectures != null) {
+                    for (Lecture lecture : lectures) {
+                        programAdapter.addItem(lecture, R.layout.adt_lecture,
+                                true);
                     }
                 }
             }
@@ -181,4 +209,24 @@ public final class ProgramFragment extends SherlockFragment implements
 
     }
 
+    private void hideSelectionIcons() {
+        programAdapter.setSelectionIconVisibility(View.GONE);
+    }
+
+    private void showSelectionIcons() {
+        programAdapter.setSelectionIconVisibility(View.VISIBLE);
+        programAdapter.notifyDataSetChanged();
+    }
+
+    private void updateFavoriteSelection(int position) {
+        Object object = programAdapter.getItem(position);
+        if (object instanceof Lecture) {
+            Lecture lecture = (Lecture) object;
+            lecture.isFavorite = Lecture.FAVORITE - lecture.isFavorite;
+            programAdapter.remove(position);
+            programAdapter.addItemAtPosition(position, lecture,
+                    R.layout.adt_lecture, true);
+            programAdapter.notifyDataSetChanged();
+        }
+    }
 }

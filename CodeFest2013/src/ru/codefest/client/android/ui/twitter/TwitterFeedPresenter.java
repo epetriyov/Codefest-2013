@@ -36,16 +36,16 @@ public class TwitterFeedPresenter {
                     tweets = twitterApi.getTweets(
                             CodeFestTwitterApi.CODEFEST_USER, 100, 1);
                 } catch (ClientProtocolException e) {
-                    if (fragment.getSherlockActivity() != null) {
+                    if (fragment.getCodeFestActivity() != null) {
                         exception = new IOException(fragment
-                                .getSherlockActivity().getString(
+                                .getCodeFestActivity().getString(
                                         R.string.error_client_protocol));
                     }
                     e.printStackTrace();
                 } catch (IOException e) {
-                    if (fragment.getSherlockActivity() != null) {
+                    if (fragment.getCodeFestActivity() != null) {
                         exception = new IOException(fragment
-                                .getSherlockActivity().getString(
+                                .getCodeFestActivity().getString(
                                         R.string.error_io));
                     }
                     e.printStackTrace();
@@ -55,21 +55,26 @@ public class TwitterFeedPresenter {
 
             @Override
             protected void onPostExecute(Void result) {
-                if (fragment.getSherlockActivity() != null) {
+                if (fragment.getCodeFestActivity() != null) {
                     if (exception != null) {
-                        Toast.makeText(fragment.getSherlockActivity(),
+                        Toast.makeText(fragment.getCodeFestActivity(),
                                 exception.getMessage(), Toast.LENGTH_LONG)
                                 .show();
                     }
                     fragment.hideProgress();
-                    fragment.updateTwitterFeed(tweets);
+                    if (tweets == null || tweets.isEmpty()) {
+                        fragment.showNoResults();
+                    } else {
+                        fragment.updateTwitterFeed(tweets);
+                    }
                 }
             };
 
             @Override
             protected void onPreExecute() {
-                if (fragment.getSherlockActivity() != null) {
+                if (fragment.getCodeFestActivity() != null) {
                     fragment.showProgress();
+                    fragment.hideNoResults();
                 }
             };
         }.execute();

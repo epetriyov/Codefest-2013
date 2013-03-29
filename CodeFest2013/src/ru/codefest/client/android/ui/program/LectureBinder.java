@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.petriyov.android.libs.ui.adapters.AdapterBinder;
@@ -21,13 +22,18 @@ public class LectureBinder extends AdapterBinder {
 
         protected VerticalTextView categoryName;
 
+        protected ImageView favoriteCheckBox;
+
     }
 
     private Activity context;
 
-    public LectureBinder(Activity context) {
+    private int selectionIconVisibility;
+
+    public LectureBinder(Activity context, int selectionIconVisibility) {
         super(context);
         this.context = context;
+        this.selectionIconVisibility = selectionIconVisibility;
     }
 
     @Override
@@ -44,8 +50,9 @@ public class LectureBinder extends AdapterBinder {
                     .findViewById(R.id.lecturerInfo);
             viewHolder.categoryName = (VerticalTextView) convertView
                     .findViewById(R.id.categoryName);
+            viewHolder.favoriteCheckBox = (ImageView) convertView
+                    .findViewById(R.id.favoriteCheckBox);
             convertView.setTag(viewHolder);
-            // view.setOnLongClickListener(fragment);
         } else {
             viewHolder = (ChildViewHolder) convertView.getTag();
         }
@@ -59,6 +66,18 @@ public class LectureBinder extends AdapterBinder {
         viewHolder.categoryName.setText(currentLecture.categoryName);
         viewHolder.categoryName.setBackgroundColor(Color
                 .parseColor(currentLecture.categoryColor));
+        if (selectionIconVisibility == View.VISIBLE) {
+            viewHolder.favoriteCheckBox.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.favoriteCheckBox.setVisibility(View.GONE);
+        }
+        if (currentLecture.isFavorite == Lecture.FAVORITE) {
+            viewHolder.favoriteCheckBox
+                    .setImageResource(R.drawable.btn_check_buttonless_on);
+        } else {
+            viewHolder.favoriteCheckBox
+                    .setImageResource(R.drawable.btn_check_buttonless_off);
+        }
         return convertView;
     }
 }

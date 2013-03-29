@@ -30,8 +30,25 @@ public class CodeFestDao {
     }
 
     public void batchFavorite(SparseIntArray favoritesArray) {
-        // TODO Auto-generated method stub
-
+        ArrayList<ContentProviderOperation> updateOperations = new ArrayList<ContentProviderOperation>();
+        for (int i = 0; i < favoritesArray.size(); i++) {
+            String lectureId = String.valueOf(favoritesArray.keyAt(i));
+            int isFavorite = favoritesArray.get(favoritesArray.keyAt(i));
+            updateOperations.add(ContentProviderOperation
+                    .newUpdate(CodeFestProvider.getUri(Lecture.TABLE_NAME))
+                    .withSelection(CustomContentProvider.KEY_ID + " IN (?)",
+                            new String[] { lectureId })
+                    .withValue(Lecture.IS_FAVORITE, isFavorite).build());
+        }
+        try {
+            context.getContentResolver().applyBatch(
+                    CodeFestProvider.CONTENT_URI, updateOperations);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (OperationApplicationException e) {
+            e.printStackTrace();
+            new RuntimeException(e);
+        }
     }
 
     public <T extends CodeFestItem> void bulkInsertItems(List<T> list,

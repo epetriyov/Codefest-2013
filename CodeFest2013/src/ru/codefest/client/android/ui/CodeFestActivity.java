@@ -1,5 +1,8 @@
 package ru.codefest.client.android.ui;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ru.codefest.client.android.R;
 import ru.codefest.client.android.service.ServiceHelper;
 import ru.codefest.client.android.ui.program.ProgramFragment;
@@ -12,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.ViewGroup;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -20,6 +24,8 @@ import com.viewpagerindicator.TabPageIndicator;
 public class CodeFestActivity extends CodeFestBaseActivity {
 
     class CodeFestPagerAdapter extends FragmentStatePagerAdapter {
+
+        private Map<Integer, ICodeFestFragment> mPageReferenceMap = new HashMap<Integer, ICodeFestFragment>();
 
         private String[] content;
 
@@ -31,8 +37,21 @@ public class CodeFestActivity extends CodeFestBaseActivity {
         }
 
         @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+
+            super.destroyItem(container, position, object);
+
+            mPageReferenceMap.remove(Integer.valueOf(position));
+        }
+
+        @Override
         public int getCount() {
             return content.length;
+        }
+
+        public ICodeFestFragment getFragment(int key) {
+
+            return mPageReferenceMap.get(key);
         }
 
         @Override
@@ -40,13 +59,19 @@ public class CodeFestActivity extends CodeFestBaseActivity {
             if (position == 0) {
                 ProgramFragment programFragment = ProgramFragment
                         .newInstance(false);
+                mPageReferenceMap.put(Integer.valueOf(position),
+                        programFragment);
                 return programFragment;
             } else if (position == 1) {
                 ProgramFragment favoritesFragment = ProgramFragment
                         .newInstance(true);
+                mPageReferenceMap.put(Integer.valueOf(position),
+                        favoritesFragment);
                 return favoritesFragment;
             } else if (position == 2) {
                 TwitterFeedFragment twitterFragment = new TwitterFeedFragment();
+                mPageReferenceMap.put(Integer.valueOf(position),
+                        twitterFragment);
                 return twitterFragment;
             } else {
                 return null;
@@ -58,6 +83,8 @@ public class CodeFestActivity extends CodeFestBaseActivity {
             return content[position % content.length].toUpperCase();
         }
     }
+
+    private CodeFestPagerAdapter adapter;
 
     static Handler handler = new Handler() {
         @Override
@@ -83,12 +110,16 @@ public class CodeFestActivity extends CodeFestBaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void sendUpdateListCommand(int position) {
+        adapter.getFragment(position).updateList();
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_codefest);
-        FragmentStatePagerAdapter adapter = new CodeFestPagerAdapter(
-                getSupportFragmentManager());
+        adapter = new CodeFestPagerAdapter(getSupportFragmentManager());
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
