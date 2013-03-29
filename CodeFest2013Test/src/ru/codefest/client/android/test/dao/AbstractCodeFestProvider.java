@@ -45,9 +45,10 @@ public abstract class AbstractCodeFestProvider extends
         // Gets the resolver for this test.
         mockedContentResolver = getMockContentResolver();
         // clear out all the old data.
-        CodeFestProvider dataProvider = (CodeFestProvider) getMockContentResolver()
-                .acquireContentProviderClient(CodeFestProvider.CONTENT_URI)
-                .getLocalContentProvider();
+        // CodeFestProvider dataProvider = (CodeFestProvider)
+        // getMockContentResolver()
+        // .acquireContentProviderClient(CodeFestProvider.CONTENT_URI)
+        // .getLocalContentProvider();
         // dataProvider.deleteAll();
     }
 }
