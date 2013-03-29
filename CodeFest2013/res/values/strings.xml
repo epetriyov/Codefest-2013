@@ -10,7 +10,7 @@
     <string name="about_menu">О приложении</string>
 
     <!-- contextual action mode items -->
-    <string name="contextual_selection">Выберите избранные доклады</string>
+    <string name="contextual_selection">Выберите доклады</string>
     <string name="contextual_cancel">Отмена</string>
 
     <!-- error messages -->
@@ -33,5 +33,14 @@
     <!--  -->
     <string name="favoriteDescription">Избранное</string>
     <string name="no_results">Список пуст</string>
+    <string name="title_about">О приложении</string>
+    <string name="ok">OK</string>
+    <string name="about_body">
+<![CDATA[ 
+        <b>CodeFest 2013</b><br>
+        Программа докладов взята с сайта<br>
+        http://2013.codefest.ru/
+  ]]>
+    </string>
 
 </resources>

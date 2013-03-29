@@ -2,6 +2,7 @@ package ru.codefest.client.android.ui.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -153,6 +154,7 @@ public class SherlockListView extends ListView {
 
     private int choiceMode;
 
+    @SuppressWarnings("unused")
     private int checkedItemCount;
 
     public SherlockListView(Context context) {
@@ -255,7 +257,6 @@ public class SherlockListView extends ListView {
 
         if (choiceMode == CHOICE_MODE_MULTIPLE
                 || choiceMode == CHOICE_MODE_MULTIPLE_MODAL) {
-            boolean oldValue = checkStates.get(position);
             checkStates.put(position, value);
             if (value) {
                 checkedItemCount++;
@@ -361,7 +362,9 @@ public class SherlockListView extends ListView {
                 ((Checkable) child).setChecked(getCheckedItemPositions().get(
                         position));
             } else if (useActivated) {
-                child.setActivated(getCheckedItemPositions().get(position));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    child.setActivated(getCheckedItemPositions().get(position));
+                }
             }
         }
     }

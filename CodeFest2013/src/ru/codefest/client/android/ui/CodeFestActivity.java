@@ -3,10 +3,11 @@ package ru.codefest.client.android.ui;
 import java.util.HashMap;
 import java.util.Map;
 
+import ru.codefest.client.android.HelpUtils;
 import ru.codefest.client.android.R;
-import ru.codefest.client.android.service.ServiceHelper;
 import ru.codefest.client.android.ui.program.ProgramFragment;
 import ru.codefest.client.android.ui.twitter.TwitterFeedFragment;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +26,7 @@ public class CodeFestActivity extends CodeFestBaseActivity {
 
     class CodeFestPagerAdapter extends FragmentStatePagerAdapter {
 
+        @SuppressLint("UseSparseArrays")
         private Map<Integer, ICodeFestFragment> mPageReferenceMap = new HashMap<Integer, ICodeFestFragment>();
 
         private String[] content;
@@ -104,9 +106,11 @@ public class CodeFestActivity extends CodeFestBaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.aboutMenuItem) {
-        } else if (item.getItemId() == R.id.refreshMenuItem) {
-            ServiceHelper.refreshProgram(this, handler);
+            HelpUtils.showAbout(this);
         }
+        // else if (item.getItemId() == R.id.refreshMenuItem) {
+        // ServiceHelper.refreshProgram(this, handler);
+        // }
         return super.onOptionsItemSelected(item);
     }
 
