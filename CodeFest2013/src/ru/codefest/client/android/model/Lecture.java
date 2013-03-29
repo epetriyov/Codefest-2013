@@ -10,11 +10,15 @@ import com.petriyov.android.libs.contentprovider.CustomContentProvider;
 @DatabaseTable(tableName = Lecture.TABLE_NAME)
 public class Lecture extends CodeFestItem {
 
+    public static final int FAVORITE = 1;
+
     public static final String TABLE_NAME = "Lecture";
 
     public static final String PERIOD_ID = "periodId";
 
     public static final String CATEGORY_ID = "categoryId";
+
+    public static final String IS_FAVORITE = "isFavorite";
 
     @DatabaseField(generatedId = true, columnName = CustomContentProvider.KEY_ID)
     public int id;
@@ -46,6 +50,9 @@ public class Lecture extends CodeFestItem {
     public String categoryName;
 
     public String categoryColor;
+
+    @DatabaseField
+    public int isFavorite;
 
     public Lecture() {
         super();

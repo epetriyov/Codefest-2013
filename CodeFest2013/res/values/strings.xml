@@ -9,6 +9,10 @@
     <string name="refresh_menu">Refresh</string>
     <string name="about_menu">О приложении</string>
 
+    <!-- contextual action mode items -->
+    <string name="contextual_selection">Выберите избранные доклады</string>
+    <string name="contextual_cancel">Отмена</string>
+
     <!-- error messages -->
     <string name="error_client_protocol">Ошибка сервера Twitter</string>
     <string name="error_io">Нет интернет-соединения</string>
@@ -16,11 +20,17 @@
     <!-- lecture periods adapter -->
     <string name="first_day">30 марта</string>
     <string name="second_day">31 марта</string>
-    
+
     <!-- lecture info -->
-    <string name = "about_reporter">О докладчике</string>
-    
+    <string name="about_reporter">О докладчике</string>
+
     <!--  -->
-    <string name="action_bar_share_with">Поделиться через…</string> 
-    
+    <string name="action_bar_share_with">Поделиться через…</string>
+
+    <!--  -->
+    <string name="avatarDescription">Аватар</string>
+
+    <!--  -->
+    <string name="favoriteDescription">Избранное</string>
+
 </resources>

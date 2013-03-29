@@ -6,23 +6,52 @@ import ru.codefest.client.android.R;
 import ru.codefest.client.android.model.Lecture;
 import ru.codefest.client.android.model.LecturePeriod;
 import ru.codefest.client.android.ui.ActivityTransition;
+import ru.codefest.client.android.ui.CodeFestActivity;
+import ru.codefest.client.android.ui.view.SherlockListView;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
 public final class ProgramFragment extends SherlockFragment implements
-        IProgramFragment, OnChildClickListener {
+        IProgramFragment, OnItemClickListener {
 
-    private ExpandableListView programListView;
+    private SherlockListView programListView;
 
     private ProgramAdapter programAdapter;
 
     private View progressBar;
+
+    private ProgramPresenter presenter;
+
+    private static final String IS_FAVORITE = "isFavorites";
+
+    public static ProgramFragment newInstance(boolean isFavorites) {
+        ProgramFragment fragment = new ProgramFragment();
+        Bundle b = new Bundle();
+        b.putBoolean(IS_FAVORITE, isFavorites);
+        fragment.setArguments(b);
+        return fragment;
+    }
+
+    private boolean isFavorites;
+
+    @Override
+    public final CodeFestActivity getCodeFestActivity() {
+        return (CodeFestActivity) super.getSherlockActivity();
+    }
 
     @Override
     public void hideProgress() {
@@ -30,27 +59,91 @@ public final class ProgramFragment extends SherlockFragment implements
     }
 
     @Override
-    public boolean onChildClick(ExpandableListView arg0, View arg1,
-            int groupPosition, int childPosition, long id) {
-        LecturePeriod period = programAdapter.getGroup(groupPosition);
-        Lecture lecture = period.getLectureList().get(childPosition);
-        ActivityTransition.openLectureInfo(getSherlockActivity(), lecture.id);
-        return false;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        if (args != null) {
+            isFavorites = args.getBoolean(IS_FAVORITE);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_program, container, false);
-        programListView = (ExpandableListView) view
+        programListView = (SherlockListView) view
                 .findViewById(R.id.programList);
         progressBar = view.findViewById(R.id.progressBarLayout);
-        programAdapter = new ProgramAdapter(getActivity());
+        programAdapter = new ProgramAdapter(getCodeFestActivity());
         programListView.setAdapter(programAdapter);
-        programListView.setOnChildClickListener(this);
-        ProgramPresenter presenter = new ProgramPresenter(this);
+        programListView.setOnItemClickListener(this);
+        programListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        programListView
+                .setMultiChoiceModeListener(new SherlockListView.MultiChoiceModeListenerCompat() {
+
+                    @Override
+                    public boolean onActionItemClicked(ActionMode mode,
+                            MenuItem item) {
+                        if (item.getItemId() == R.id.actionmode_cancel) {
+                            clearLecturesSelection();
+                            mode.finish();
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                        MenuInflater inflater = mode.getMenuInflater();
+                        inflater.inflate(R.menu.context_menu, menu);
+                        MenuItem item = menu.findItem(R.id.action_text);
+                        View v = item.getActionView();
+                        if (v instanceof TextView) {
+                            ((TextView) v)
+                                    .setText(R.string.contextual_selection);
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public void onDestroyActionMode(ActionMode mode) {
+                        saveSelection(programListView.getCheckedItemPositions());
+                    }
+
+                    @Override
+                    public void onItemCheckedStateChanged(ActionMode mode,
+                            int position, long id, boolean checked) {
+
+                    }
+
+                    @Override
+                    public boolean onPrepareActionMode(ActionMode mode,
+                            Menu menu) {
+                        return false;
+                    }
+                });
+        presenter = new ProgramPresenter(this, isFavorites);
         presenter.initProgramList();
         return view;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+        Lecture lecture = (Lecture) arg0.getItemAtPosition(arg2);
+        ActivityTransition.openLectureInfo(getSherlockActivity(), lecture.id);
+
+    }
+
+    public void saveSelection(SparseBooleanArray sparseBooleanArray) {
+        SparseIntArray favoritesArray = new SparseIntArray(
+                programAdapter.getCount());
+        for (int i = 0; i < programAdapter.getCount(); i++) {
+            if (programAdapter.isEnabled(i)) {
+                Lecture lecture = (Lecture) programAdapter.getItem(i);
+                favoritesArray.append(lecture.id, sparseBooleanArray.get(i) ? 1
+                        : 0);
+            }
+        }
+        presenter.batchFavorite(favoritesArray);
     }
 
     @Override
@@ -61,12 +154,30 @@ public final class ProgramFragment extends SherlockFragment implements
 
     @Override
     public void updateProgramList(List<LecturePeriod> lecturePeriods) {
-        programAdapter.setPeriods(lecturePeriods);
-        int count = programAdapter.getGroupCount();
-        for (int i = 0; i < count; i++) {
-            programListView.expandGroup(i);
+        programAdapter.clear();
+        List<Lecture> lectures = null;
+        if (lecturePeriods != null) {
+            for (LecturePeriod period : lecturePeriods) {
+                lectures = period.getLectureList();
+                if (!lectures.isEmpty()) {
+                    programAdapter.addItem(period, R.layout.adt_lecture_period,
+                            false);
+                    if (lectures != null) {
+                        for (Lecture lecture : lectures) {
+                            programAdapter.addItem(lecture,
+                                    R.layout.adt_lecture, true);
+                        }
+                    }
+                }
+            }
         }
         programAdapter.notifyDataSetChanged();
+    }
+
+    protected void clearLecturesSelection() {
+        for (int i = 0; i < programAdapter.getCount(); i++) {
+            programListView.setItemChecked(i, false);
+        }
 
     }
 

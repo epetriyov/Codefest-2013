@@ -6,5 +6,6 @@
     <color name="tabColor">#FF555555</color>
     <color name="themeColor">#E6001B</color>
     <color name="progressBarBackground">#909090</color>
+    <color name="transparent">#00000000</color>
 
 </resources>

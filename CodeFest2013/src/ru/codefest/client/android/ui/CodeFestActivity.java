@@ -1,7 +1,7 @@
 package ru.codefest.client.android.ui;
 
 import ru.codefest.client.android.R;
-import ru.codefest.client.android.ui.favorites.FavoritesFragment;
+import ru.codefest.client.android.service.ServiceHelper;
 import ru.codefest.client.android.ui.program.ProgramFragment;
 import ru.codefest.client.android.ui.twitter.TwitterFeedFragment;
 import android.os.Bundle;
@@ -38,10 +38,12 @@ public class CodeFestActivity extends CodeFestBaseActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                ProgramFragment programFragment = new ProgramFragment();
+                ProgramFragment programFragment = ProgramFragment
+                        .newInstance(false);
                 return programFragment;
             } else if (position == 1) {
-                FavoritesFragment favoritesFragment = new FavoritesFragment();
+                ProgramFragment favoritesFragment = ProgramFragment
+                        .newInstance(true);
                 return favoritesFragment;
             } else if (position == 2) {
                 TwitterFeedFragment twitterFragment = new TwitterFeedFragment();
@@ -75,10 +77,9 @@ public class CodeFestActivity extends CodeFestBaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.aboutMenuItem) {
+        } else if (item.getItemId() == R.id.refreshMenuItem) {
+            ServiceHelper.refreshProgram(this, handler);
         }
-        // else if (item.getItemId() == R.id.refreshMenuItem) {
-        // ServiceHelper.refreshProgram(this, handler);
-        // }
         return super.onOptionsItemSelected(item);
     }
 

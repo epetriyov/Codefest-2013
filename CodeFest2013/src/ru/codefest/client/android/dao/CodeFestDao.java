@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.os.RemoteException;
+import android.util.SparseIntArray;
 
 import com.petriyov.android.libs.bindings.BinderHelper;
 import com.petriyov.android.libs.contentprovider.CustomContentProvider;
@@ -26,6 +27,11 @@ public class CodeFestDao {
     public CodeFestDao(Context context, BinderHelper binderHelper) {
         this.context = context;
         this.binderHelper = binderHelper;
+    }
+
+    public void batchFavorite(SparseIntArray favoritesArray) {
+        // TODO Auto-generated method stub
+
     }
 
     public <T extends CodeFestItem> void bulkInsertItems(List<T> list,
@@ -67,6 +73,24 @@ public class CodeFestDao {
             return list.get(0);
         }
         return null;
+    }
+
+    public List<Lecture> getFavoritesByPeriodId(int periodId) {
+        List<Lecture> lectureList = new ArrayList<Lecture>();
+        Cursor cursor = context.getContentResolver()
+                .query(CodeFestProvider.getUri(Lecture.TABLE_NAME),
+                        null,
+                        Lecture.PERIOD_ID + " = ?1 AND " + Lecture.IS_FAVORITE
+                                + " = ?2",
+                        new String[] { String.valueOf(periodId),
+                                String.valueOf(Lecture.FAVORITE) },
+                        Lecture.CATEGORY_ID);
+        if (cursor != null) {
+            lectureList = binderHelper.adaptListFromCursor(cursor,
+                    Lecture.class);
+        }
+        return lectureList;
+
     }
 
     public Lecture getLectureById(int lectureId) {

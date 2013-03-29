@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:background="@android:color/white" >
+    android:background="@drawable/bg_list_selector" >
 
     <com.petriyov.android.libs.ui.views.VerticalTextView
         android:id="@+id/categoryName"
         android:layout_width="20dp"
-        android:gravity= "left"
-        android:paddingLeft="5dp"
         android:layout_height="match_parent"
+        android:gravity="left"
+        android:paddingLeft="5dp"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -18,6 +18,14 @@
         android:layout_width="2dp"
         android:layout_height="match_parent"
         android:background="@android:color/black" />
+
+    <ImageView
+        android:id="@+id/favoriteCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/favoriteDescription"
+        android:paddingLeft="5dp"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +39,6 @@
             android:ellipsize="end"
             android:gravity="center_vertical|left"
             android:maxLines="2"
-            android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:paddingTop="5dp"
             android:textColor="@android:color/black"
@@ -46,7 +53,6 @@
             android:gravity="center_vertical|left"
             android:maxLines="1"
             android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:singleLine="true"
             android:textColor="@android:color/black"

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ExpandableListView
+    <ru.codefest.client.android.ui.view.SherlockListView
         android:id="@+id/programList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,8 +13,6 @@
         android:descendantFocusability="afterDescendants"
         android:divider="@android:color/black"
         android:dividerHeight="1dp"
-        android:groupIndicator="@drawable/bg_expandable_group_view"
-        android:listSelector="@android:drawable/list_selector_background"
         android:scrollingCache="false" />
 
     <include layout="@layout/view_progress_bar" />
