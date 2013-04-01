@@ -27,7 +27,14 @@ public class BinderHelper {
      *         Cursor
      */
     public <T> T adaptFromCursor(Cursor cursor, Class<T> clazz) {
-        return getSingleObjectValuesFromCursor(cursor, clazz);
+        T result = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                result = getSingleObjectValuesFromCursor(cursor, clazz);
+            }
+            cursor.close();
+        }
+        return result;
     }
 
     /**
@@ -45,7 +52,7 @@ public class BinderHelper {
      *         cursor data.
      */
     public <T> List<T> adaptListFromCursor(Cursor cursor, Class<T> clazz) {
-        if (cursor.getCount() > 0) {
+        if (cursor != null) {
             return getValuesFromCursor(cursor, clazz);
         }
         return new ArrayList<T>();
@@ -98,16 +105,13 @@ public class BinderHelper {
 
     private <T> List<T> getValuesFromCursor(Cursor cursor, Class<T> clazz) {
         List<T> values = new ArrayList<T>();
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                do {
-                    T newInstance = getSingleObjectValuesFromCursor(cursor,
-                            clazz);
-                    values.add(newInstance);
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
+        if (cursor.moveToFirst()) {
+            do {
+                T newInstance = getSingleObjectValuesFromCursor(cursor, clazz);
+                values.add(newInstance);
+            } while (cursor.moveToNext());
         }
+        cursor.close();
         return values;
     }
 

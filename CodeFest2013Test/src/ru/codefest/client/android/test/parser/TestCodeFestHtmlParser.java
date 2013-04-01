@@ -51,7 +51,7 @@ public class TestCodeFestHtmlParser extends TestCase {
         try {
             actualPeriods = parser
                     .parseLecturePeriods(CodeFestHtmlParser.CODEFEST_URL);
-            int expectedPeriodsCount = 19;
+            int expectedPeriodsCount = 16;
             assertEquals(actualPeriods.size(), expectedPeriodsCount);
         } catch (IOException e) {
             e.printStackTrace();
