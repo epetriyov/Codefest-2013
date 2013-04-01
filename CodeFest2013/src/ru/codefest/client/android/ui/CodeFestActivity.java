@@ -1,12 +1,13 @@
 package ru.codefest.client.android.ui;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import ru.codefest.client.android.HelpUtils;
 import ru.codefest.client.android.R;
 import ru.codefest.client.android.ui.program.ProgramFragment;
 import ru.codefest.client.android.ui.twitter.TwitterFeedFragment;
+import ru.codefest.client.android.ui.view.CustomViewPager;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,8 +15,8 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.actionbarsherlock.view.Menu;
@@ -27,7 +28,7 @@ public class CodeFestActivity extends CodeFestBaseActivity {
     class CodeFestPagerAdapter extends FragmentStatePagerAdapter {
 
         @SuppressLint("UseSparseArrays")
-        private Map<Integer, ICodeFestFragment> mPageReferenceMap = new HashMap<Integer, ICodeFestFragment>();
+        private Map<Integer, ICodeFestFragment> mPageReferenceMap = new WeakHashMap<Integer, ICodeFestFragment>();
 
         private String[] content;
 
@@ -88,6 +89,10 @@ public class CodeFestActivity extends CodeFestBaseActivity {
 
     private CodeFestPagerAdapter adapter;
 
+    private CustomViewPager viewPager;
+
+    private TabPageIndicator tabPageIndicator;
+
     static Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -114,8 +119,16 @@ public class CodeFestActivity extends CodeFestBaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void sendUpdateListCommand(int position) {
-        adapter.getFragment(position).updateList();
+    public void sendUpdateFavoritesListCommand() {
+        if (adapter.getFragment(1) != null) {
+            adapter.getFragment(1).updateList();
+        }
+
+    }
+
+    public void setViewPagerEnabled(boolean enabled) {
+        viewPager.setPagingEnabled(enabled);
+        tabPageIndicator.setVisibility(enabled ? View.VISIBLE : View.GONE);
 
     }
 
@@ -125,10 +138,10 @@ public class CodeFestActivity extends CodeFestBaseActivity {
         setContentView(R.layout.act_codefest);
         adapter = new CodeFestPagerAdapter(getSupportFragmentManager());
 
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(adapter);
+        viewPager = (CustomViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(adapter);
 
-        TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
-        indicator.setViewPager(pager);
+        tabPageIndicator = (TabPageIndicator) findViewById(R.id.indicator);
+        tabPageIndicator.setViewPager(viewPager);
     }
 }

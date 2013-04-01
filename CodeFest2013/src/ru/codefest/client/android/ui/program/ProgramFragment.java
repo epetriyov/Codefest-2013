@@ -9,8 +9,6 @@ import ru.codefest.client.android.ui.ActivityTransition;
 import ru.codefest.client.android.ui.CodeFestActivity;
 import ru.codefest.client.android.ui.view.SherlockListView;
 import android.os.Bundle;
-import android.util.SparseBooleanArray;
-import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,6 +108,7 @@ public final class ProgramFragment extends SherlockFragment implements
                             inflater.inflate(R.menu.context_menu, menu);
                             MenuItem item = menu.findItem(R.id.action_text);
                             View v = item.getActionView();
+                            getCodeFestActivity().setViewPagerEnabled(false);
                             if (v instanceof TextView) {
                                 ((TextView) v)
                                         .setText(R.string.contextual_selection);
@@ -124,6 +123,7 @@ public final class ProgramFragment extends SherlockFragment implements
                             if (!isCancelClicked) {
                                 presenter.saveSelection(programAdapter);
                             }
+                            getCodeFestActivity().setViewPagerEnabled(true);
                             hideSelectionIcons();
                         }
 
@@ -150,19 +150,6 @@ public final class ProgramFragment extends SherlockFragment implements
         Lecture lecture = (Lecture) arg0.getItemAtPosition(arg2);
         ActivityTransition.openLectureInfo(getSherlockActivity(), lecture.id);
 
-    }
-
-    public void saveSelection(SparseBooleanArray sparseBooleanArray) {
-        SparseIntArray favoritesArray = new SparseIntArray(
-                programAdapter.getCount());
-        for (int i = 0; i < programAdapter.getCount(); i++) {
-            if (programAdapter.isEnabled(i)) {
-                Lecture lecture = (Lecture) programAdapter.getItem(i);
-                favoritesArray.append(lecture.id, sparseBooleanArray.get(i) ? 1
-                        : 0);
-            }
-        }
-        presenter.batchFavorite(favoritesArray);
     }
 
     @Override

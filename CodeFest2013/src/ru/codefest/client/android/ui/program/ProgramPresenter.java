@@ -1,5 +1,6 @@
 package ru.codefest.client.android.ui.program;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import ru.codefest.client.android.dao.CodeFestDao;
@@ -16,24 +17,34 @@ import com.petriyov.android.libs.bindings.BinderHelper;
 
 public class ProgramPresenter {
 
+    private static class IncomingHandler extends Handler {
+
+        private final WeakReference<ProgramPresenter> presenterRef;
+
+        public IncomingHandler(ProgramPresenter presenter) {
+            presenterRef = new WeakReference<ProgramPresenter>(presenter);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            ProgramPresenter presenter = presenterRef.get();
+            if (presenter != null) {
+                presenter.handleUpdateFavoritesListMessage();
+            }
+            super.handleMessage(msg);
+        }
+    }
+
+    private IncomingHandler handler;
+
     private IProgramFragment fragment;
 
     private boolean isFavorites;
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            fragment.hideProgress();
-            if (!isFavorites) {
-                fragment.getCodeFestActivity().sendUpdateListCommand(1);
-            }
-            super.handleMessage(msg);
-        }
-    };
-
     public ProgramPresenter(IProgramFragment fragment, boolean isFavorites) {
         this.fragment = fragment;
         this.isFavorites = isFavorites;
+        handler = new IncomingHandler(this);
     }
 
     public void batchFavorite(SparseIntArray favoritesArray) {
@@ -47,6 +58,8 @@ public class ProgramPresenter {
 
             private List<LecturePeriod> lecturePeriods;
 
+            private boolean hasFavorites;
+
             @Override
             protected Void doInBackground(Void... params) {
                 if (fragment.getCodeFestActivity() != null) {
@@ -54,6 +67,7 @@ public class ProgramPresenter {
                             fragment.getCodeFestActivity(), new BinderHelper());
                     lecturePeriods = dao.getList(LecturePeriod.class,
                             LecturePeriod.TABLE_NAME);
+                    hasFavorites = false;
                     for (LecturePeriod period : lecturePeriods) {
                         List<Lecture> lecturesList = null;
                         if (isFavorites) {
@@ -69,7 +83,7 @@ public class ProgramPresenter {
                                 lecture.categoryName = category.name;
                                 lecture.categoryColor = category.color;
                             }
-
+                            hasFavorites = true;
                         }
                         period.setLectureList(lecturesList);
                     }
@@ -81,9 +95,7 @@ public class ProgramPresenter {
             protected void onPostExecute(Void result) {
                 if (fragment.getCodeFestActivity() != null) {
                     fragment.hideProgress();
-                    if (lecturePeriods == null || lecturePeriods.isEmpty()
-                            || lecturePeriods.get(0).getLectureList() == null
-                            || lecturePeriods.get(0).getLectureList().isEmpty()) {
+                    if (lecturePeriods == null || !hasFavorites) {
                         fragment.showNoResults();
                     } else {
                         fragment.updateProgramList(lecturePeriods);
@@ -113,5 +125,13 @@ public class ProgramPresenter {
         }
         ServiceHelper.batchFavorite(fragment.getCodeFestActivity(), handler,
                 favoriteArray);
+    }
+
+    private void handleUpdateFavoritesListMessage() {
+        fragment.hideProgress();
+        if (!isFavorites && fragment.getCodeFestActivity() != null) {
+            fragment.getCodeFestActivity().sendUpdateFavoritesListCommand();
+        }
+
     }
 }

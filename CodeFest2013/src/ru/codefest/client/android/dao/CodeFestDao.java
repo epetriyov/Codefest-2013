@@ -78,18 +78,11 @@ public class CodeFestDao {
     }
 
     public Category getCategoryById(int categoryId) {
-        List<Category> list = new ArrayList<Category>();
         Cursor cursor = context.getContentResolver().query(
                 CodeFestProvider.getUri(Category.TABLE_NAME), null,
                 CustomContentProvider.KEY_ID + " = ?1",
                 new String[] { String.valueOf(categoryId) }, null);
-        if (cursor != null) {
-            list = binderHelper.adaptListFromCursor(cursor, Category.class);
-        }
-        if (list.size() > 0) {
-            return list.get(0);
-        }
-        return null;
+        return binderHelper.adaptFromCursor(cursor, Category.class);
     }
 
     public List<Lecture> getFavoritesByPeriodId(int periodId) {
@@ -102,27 +95,17 @@ public class CodeFestDao {
                         new String[] { String.valueOf(periodId),
                                 String.valueOf(Lecture.FAVORITE) },
                         Lecture.CATEGORY_ID);
-        if (cursor != null) {
-            lectureList = binderHelper.adaptListFromCursor(cursor,
-                    Lecture.class);
-        }
+        lectureList = binderHelper.adaptListFromCursor(cursor, Lecture.class);
         return lectureList;
 
     }
 
     public Lecture getLectureById(int lectureId) {
-        List<Lecture> list = new ArrayList<Lecture>();
         Cursor cursor = context.getContentResolver().query(
                 CodeFestProvider.getUri(Lecture.TABLE_NAME), null,
                 CustomContentProvider.KEY_ID + " = ?1",
                 new String[] { String.valueOf(lectureId) }, null);
-        if (cursor != null) {
-            list = binderHelper.adaptListFromCursor(cursor, Lecture.class);
-        }
-        if (list.size() > 0) {
-            return list.get(0);
-        }
-        return null;
+        return binderHelper.adaptFromCursor(cursor, Lecture.class);
     }
 
     public List<Lecture> getLecturesByPeriodId(int periodId) {
@@ -131,10 +114,7 @@ public class CodeFestDao {
                 CodeFestProvider.getUri(Lecture.TABLE_NAME), null,
                 Lecture.PERIOD_ID + " = ?1",
                 new String[] { String.valueOf(periodId) }, Lecture.CATEGORY_ID);
-        if (cursor != null) {
-            lectureList = binderHelper.adaptListFromCursor(cursor,
-                    Lecture.class);
-        }
+        lectureList = binderHelper.adaptListFromCursor(cursor, Lecture.class);
         return lectureList;
 
     }
@@ -144,9 +124,7 @@ public class CodeFestDao {
         List<T> list = new ArrayList<T>();
         Cursor cursor = context.getContentResolver().query(
                 CodeFestProvider.getUri(tableName), null, null, null, null);
-        if (cursor != null) {
-            list = binderHelper.adaptListFromCursor(cursor, clazz);
-        }
+        list = binderHelper.adaptListFromCursor(cursor, clazz);
         return list;
     }
 
@@ -159,10 +137,7 @@ public class CodeFestDao {
                         + " from lecture where " + Lecture.PERIOD_ID
                         + " = lecturePeriod." + CustomContentProvider.KEY_ID
                         + ")", null, null);
-        if (cursor != null) {
-            list = binderHelper
-                    .adaptListFromCursor(cursor, LecturePeriod.class);
-        }
+        list = binderHelper.adaptListFromCursor(cursor, LecturePeriod.class);
         return list;
 
     }
