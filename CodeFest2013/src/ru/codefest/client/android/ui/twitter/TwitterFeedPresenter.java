@@ -68,7 +68,9 @@ public class TwitterFeedPresenter {
                         fragment.updateTwitterFeed(tweets);
                     }
                 }
-            };
+            }
+
+            ;
 
             @Override
             protected void onPreExecute() {
@@ -76,7 +78,9 @@ public class TwitterFeedPresenter {
                     fragment.showProgress();
                     fragment.hideNoResults();
                 }
-            };
+            }
+
+            ;
         }.execute();
     }
 }

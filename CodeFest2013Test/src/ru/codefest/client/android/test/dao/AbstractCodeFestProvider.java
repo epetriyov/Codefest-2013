@@ -34,7 +34,7 @@ public abstract class AbstractCodeFestProvider extends
     }
 
     public AbstractCodeFestProvider(Class<CodeFestProvider> providerClass,
-            String providerAuthority) {
+                                    String providerAuthority) {
         super(providerClass, providerAuthority);
     }
 

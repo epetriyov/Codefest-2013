@@ -16,13 +16,10 @@ public class BinderHelper {
     /**
      * Returns a Single Domain Object from the Cursor's first row. All other
      * rows will be ignored.
-     * 
-     * @param cursor
-     *            returned data from the database query.
-     * @param clazz
-     *            Domain object Class to put all the data from the cursor
-     * @param <T>
-     *            Domain Object type of the Class
+     *
+     * @param cursor returned data from the database query.
+     * @param clazz  Domain object Class to put all the data from the cursor
+     * @param <T>    Domain Object type of the Class
      * @return T domain object populated with data from the first row in the
      *         Cursor
      */
@@ -41,13 +38,10 @@ public class BinderHelper {
      * convert a Cursor with a multitude of date rows and return a List of
      * instances of Class That is mapped to the corresponding database table
      * that the Cursor has data from
-     * 
-     * @param cursor
-     *            returned data from the database query
-     * @param clazz
-     *            Domain object Class to put all the data from the cursor
-     * @param <T>
-     *            Domain Object type
+     *
+     * @param cursor returned data from the database query
+     * @param clazz  Domain object Class to put all the data from the cursor
+     * @param <T>    Domain Object type
      * @return List<T> returns a list of populated domain objects based on the
      *         cursor data.
      */

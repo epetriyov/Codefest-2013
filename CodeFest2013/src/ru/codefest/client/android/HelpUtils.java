@@ -42,7 +42,7 @@ public class HelpUtils {
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog,
-                                        int whichButton) {
+                                                    int whichButton) {
                                     dialog.dismiss();
                                 }
                             }).create();

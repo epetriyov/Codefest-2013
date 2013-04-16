@@ -74,7 +74,7 @@ public final class ProgramFragment extends SherlockFragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_program, container, false);
         programListView = (SherlockListView) view
                 .findViewById(R.id.programList);
@@ -92,7 +92,7 @@ public final class ProgramFragment extends SherlockFragment implements
 
                         @Override
                         public boolean onActionItemClicked(ActionMode mode,
-                                MenuItem item) {
+                                                           MenuItem item) {
                             if (item.getItemId() == R.id.actionmode_cancel) {
                                 presenter.initProgramList();
                                 isCancelClicked = true;
@@ -103,7 +103,7 @@ public final class ProgramFragment extends SherlockFragment implements
 
                         @Override
                         public boolean onCreateActionMode(ActionMode mode,
-                                Menu menu) {
+                                                          Menu menu) {
                             MenuInflater inflater = mode.getMenuInflater();
                             inflater.inflate(R.menu.context_menu, menu);
                             MenuItem item = menu.findItem(R.id.action_text);
@@ -129,13 +129,13 @@ public final class ProgramFragment extends SherlockFragment implements
 
                         @Override
                         public void onItemCheckedStateChanged(ActionMode mode,
-                                int position, long id, boolean checked) {
+                                                              int position, long id, boolean checked) {
                             updateFavoriteSelection(position);
                         }
 
                         @Override
                         public boolean onPrepareActionMode(ActionMode mode,
-                                Menu menu) {
+                                                           Menu menu) {
                             return false;
                         }
                     });

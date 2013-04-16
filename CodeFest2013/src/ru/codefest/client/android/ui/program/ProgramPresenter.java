@@ -101,7 +101,9 @@ public class ProgramPresenter {
                         fragment.updateProgramList(lecturePeriods);
                     }
                 }
-            };
+            }
+
+            ;
 
             @Override
             protected void onPreExecute() {
@@ -109,7 +111,9 @@ public class ProgramPresenter {
                     fragment.showProgress();
                     fragment.hideNoResults();
                 }
-            };
+            }
+
+            ;
         }.execute();
     }
 

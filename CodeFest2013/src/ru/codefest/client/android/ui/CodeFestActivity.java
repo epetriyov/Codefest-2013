@@ -34,9 +34,9 @@ public class CodeFestActivity extends CodeFestBaseActivity {
 
         public CodeFestPagerAdapter(FragmentManager fm) {
             super(fm);
-            content = new String[] { getString(R.string.programTabText),
+            content = new String[]{getString(R.string.programTabText),
                     getString(R.string.favoritesTabText),
-                    getString(R.string.chatTabText) };
+                    getString(R.string.chatTabText)};
         }
 
         @Override

@@ -36,7 +36,7 @@
     <string name="title_about">О приложении</string>
     <string name="ok">OK</string>
     <string name="about_body">
-<![CDATA[ 
+        <![CDATA[
         <b>CodeFest 2013</b><br>
         Программа докладов взята с сайта<br>
         http://2013.codefest.ru/

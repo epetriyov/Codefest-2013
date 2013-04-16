@@ -37,7 +37,7 @@ public class CodeFestDao {
             updateOperations.add(ContentProviderOperation
                     .newUpdate(CodeFestProvider.getUri(Lecture.TABLE_NAME))
                     .withSelection(CustomContentProvider.KEY_ID + " IN (?)",
-                            new String[] { lectureId })
+                            new String[]{lectureId})
                     .withValue(Lecture.IS_FAVORITE, isFavorite).build());
         }
         try {
@@ -52,7 +52,7 @@ public class CodeFestDao {
     }
 
     public <T extends CodeFestItem> void bulkInsertItems(List<T> list,
-            String tableName) {
+                                                         String tableName) {
         context.getContentResolver().bulkInsert(
                 CodeFestProvider.getUri(tableName),
                 binderHelper.adaptValuesFromList(list));
@@ -81,7 +81,7 @@ public class CodeFestDao {
         Cursor cursor = context.getContentResolver().query(
                 CodeFestProvider.getUri(Category.TABLE_NAME), null,
                 CustomContentProvider.KEY_ID + " = ?1",
-                new String[] { String.valueOf(categoryId) }, null);
+                new String[]{String.valueOf(categoryId)}, null);
         return binderHelper.adaptFromCursor(cursor, Category.class);
     }
 
@@ -92,8 +92,8 @@ public class CodeFestDao {
                         null,
                         Lecture.PERIOD_ID + " = ?1 AND " + Lecture.IS_FAVORITE
                                 + " = ?2",
-                        new String[] { String.valueOf(periodId),
-                                String.valueOf(Lecture.FAVORITE) },
+                        new String[]{String.valueOf(periodId),
+                                String.valueOf(Lecture.FAVORITE)},
                         Lecture.CATEGORY_ID);
         lectureList = binderHelper.adaptListFromCursor(cursor, Lecture.class);
         return lectureList;
@@ -104,7 +104,7 @@ public class CodeFestDao {
         Cursor cursor = context.getContentResolver().query(
                 CodeFestProvider.getUri(Lecture.TABLE_NAME), null,
                 CustomContentProvider.KEY_ID + " = ?1",
-                new String[] { String.valueOf(lectureId) }, null);
+                new String[]{String.valueOf(lectureId)}, null);
         return binderHelper.adaptFromCursor(cursor, Lecture.class);
     }
 
@@ -113,14 +113,14 @@ public class CodeFestDao {
         Cursor cursor = context.getContentResolver().query(
                 CodeFestProvider.getUri(Lecture.TABLE_NAME), null,
                 Lecture.PERIOD_ID + " = ?1",
-                new String[] { String.valueOf(periodId) }, Lecture.CATEGORY_ID);
+                new String[]{String.valueOf(periodId)}, Lecture.CATEGORY_ID);
         lectureList = binderHelper.adaptListFromCursor(cursor, Lecture.class);
         return lectureList;
 
     }
 
     public <T extends CodeFestItem> List<T> getList(Class<T> clazz,
-            String tableName) {
+                                                    String tableName) {
         List<T> list = new ArrayList<T>();
         Cursor cursor = context.getContentResolver().query(
                 CodeFestProvider.getUri(tableName), null, null, null, null);

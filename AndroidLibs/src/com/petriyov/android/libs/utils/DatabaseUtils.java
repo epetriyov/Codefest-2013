@@ -13,20 +13,17 @@ import android.content.res.AssetManager;
 public class DatabaseUtils {
 
     /**
-     * 
      * @param context
-     * @param dbFile
-     *            - file where to copy
-     * @param dbFileFormat
-     *            - string format of db-files from assets (for example,
-     *            database_%d.db) <br>
-     *            Important: <br>
-     *            db-files must be numbered from 1 to ... <br>
-     *            size of db-files must be <= 1 Mb.
+     * @param dbFile       - file where to copy
+     * @param dbFileFormat - string format of db-files from assets (for example,
+     *                     database_%d.db) <br>
+     *                     Important: <br>
+     *                     db-files must be numbered from 1 to ... <br>
+     *                     size of db-files must be <= 1 Mb.
      * @throws IOException
      */
     public static void copyPrecompiledDatabase(Context context, File dbFile,
-            String dbFileFormat) throws IOException {
+                                               String dbFileFormat) throws IOException {
         AssetManager assetManager = context.getAssets();
         new File(dbFile.getParentFile().getAbsolutePath()).mkdirs();
 

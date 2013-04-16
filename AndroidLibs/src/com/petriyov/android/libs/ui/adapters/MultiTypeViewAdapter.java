@@ -11,20 +11,20 @@ import android.widget.BaseAdapter;
 
 /**
  * Adapter for multy type lists
- * 
+ * <p/>
  * Simple usage :<code>
- *    adapter = new MultyTypeAdapter();  
-        
-      adapter.addBinder(R.layout.row_mail_list, new MyAdapterBinder1(view));
-      adapter.addBinder(R.layout.row_mail_separator,new MyAdapterBinder2(view));
-      
-      adapter.clear();
-      
-      adapter.addItem(myData, R.layout.row_mail_list, true);
-      adapter.addItem(myData, R.layout.row_mail_list, true);
-       
-      adapter.notifyDataSetChanged();
-       </code>
+ * adapter = new MultyTypeAdapter();
+ * <p/>
+ * adapter.addBinder(R.layout.row_mail_list, new MyAdapterBinder1(view));
+ * adapter.addBinder(R.layout.row_mail_separator,new MyAdapterBinder2(view));
+ * <p/>
+ * adapter.clear();
+ * <p/>
+ * adapter.addItem(myData, R.layout.row_mail_list, true);
+ * adapter.addItem(myData, R.layout.row_mail_list, true);
+ * <p/>
+ * adapter.notifyDataSetChanged();
+ * </code>
  */
 public class MultiTypeViewAdapter extends BaseAdapter {
     private class Item {
@@ -63,7 +63,7 @@ public class MultiTypeViewAdapter extends BaseAdapter {
     }
 
     public void addItemAtPosition(int position, Object data, int layout,
-            boolean isEnable) {
+                                  boolean isEnable) {
         int index = position;
         if (index >= items.size()) {
             index = items.size() - 1;
@@ -97,7 +97,9 @@ public class MultiTypeViewAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
-    };
+    }
+
+    ;
 
     @Override
     public int getItemViewType(int position) {
@@ -143,7 +145,7 @@ public class MultiTypeViewAdapter extends BaseAdapter {
     }
 
     public void insertItem(int position, Object data, int layout,
-            boolean isEnable) {
+                           boolean isEnable) {
         addItemAtPosition(position, data, layout, isEnable);
     }
 
@@ -163,7 +165,7 @@ public class MultiTypeViewAdapter extends BaseAdapter {
     }
 
     protected View getViewByType(int position, View convertView,
-            ViewGroup parent, int layout, Object itemData) {
+                                 ViewGroup parent, int layout, Object itemData) {
         View convertedView = convertView;
         IAdapterBinder binder = this.binders.get(layout);
         if (binder != null) {
@@ -173,5 +175,7 @@ public class MultiTypeViewAdapter extends BaseAdapter {
                     + " no setted");
         }
         return convertedView;
-    };
+    }
+
+    ;
 }

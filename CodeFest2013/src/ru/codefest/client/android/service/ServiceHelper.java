@@ -21,7 +21,7 @@ public class ServiceHelper {
     public static final String FAVORITES_EXTRA = "favoritesExtra";
 
     public static void batchFavorite(Context context, Handler handler,
-            SparseIntArray favorites) {
+                                     SparseIntArray favorites) {
         Intent refreshIntent = new Intent(context, CodeFestService.class);
         refreshIntent.putExtra(COMMAND_INTENT_NAME, FAVORITE_COMMAND);
         refreshIntent.putExtra(MESSENGER_INTENT_NAME, new Messenger(handler));

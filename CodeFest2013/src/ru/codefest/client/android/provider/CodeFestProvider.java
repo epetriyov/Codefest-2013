@@ -19,8 +19,8 @@ public class CodeFestProvider extends CustomContentProvider {
     private static final Uri URI_PREFIX = Uri.parse("content://" + CONTENT_URI
             + "/");
 
-    private static final Class<?>[] TABLES = { Category.class,
-            LecturePeriod.class, Lecture.class };
+    private static final Class<?>[] TABLES = {Category.class,
+            LecturePeriod.class, Lecture.class};
 
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);

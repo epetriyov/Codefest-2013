@@ -33,19 +33,15 @@ public class SherlockListView extends ListView {
     public interface MultiChoiceModeListenerCompat extends ActionMode.Callback {
         /**
          * Called when an item is checked or unchecked during selection mode.
-         * 
-         * @param mode
-         *            The {@link ActionMode} providing the selection mode
-         * @param position
-         *            Adapter position of the item that was checked or unchecked
-         * @param id
-         *            Adapter ID of the item that was checked or unchecked
-         * @param checked
-         *            <code>true</code> if the item is now checked,
-         *            <code>false</code> if the item is now unchecked.
+         *
+         * @param mode     The {@link ActionMode} providing the selection mode
+         * @param position Adapter position of the item that was checked or unchecked
+         * @param id       Adapter ID of the item that was checked or unchecked
+         * @param checked  <code>true</code> if the item is now checked,
+         *                 <code>false</code> if the item is now unchecked.
          */
         public void onItemCheckedStateChanged(ActionMode mode, int position,
-                long id, boolean checked);
+                                              long id, boolean checked);
     }
 
     class MultiChoiceModeWrapper implements MultiChoiceModeListenerCompat {
@@ -92,7 +88,7 @@ public class SherlockListView extends ListView {
 
         @Override
         public void onItemCheckedStateChanged(ActionMode mode, int position,
-                long id, boolean checked) {
+                                              long id, boolean checked) {
             if (wrapped == null) {
                 return;
             }
@@ -127,7 +123,7 @@ public class SherlockListView extends ListView {
 
         @Override
         public boolean onItemLongClick(AdapterView<?> view, View child,
-                int position, long id) {
+                                       int position, long id) {
             // this would be easier if AbsListView.performLongPress wasn't
             // package
             // protected :-(
@@ -235,11 +231,9 @@ public class SherlockListView extends ListView {
      * Sets the checked state of the specified position. The is only valid if
      * the choice mode has been set to {@link #CHOICE_MODE_SINGLE} or
      * {@link #CHOICE_MODE_MULTIPLE}.
-     * 
-     * @param position
-     *            The item whose checked state is to be checked
-     * @param value
-     *            The new checked state for the item
+     *
+     * @param position The item whose checked state is to be checked
+     * @param value    The new checked state for the item
      */
     @Override
     public void setItemChecked(int position, boolean value) {
@@ -323,7 +317,7 @@ public class SherlockListView extends ListView {
     }
 
     boolean doLongPress(final View child, final int longPressPosition,
-            final long longPressId) {
+                        final long longPressId) {
         if (choiceMode == CHOICE_MODE_MULTIPLE_MODAL_COMPAT) {
             if (actionMode == null
                     && (actionMode = startActionMode(choiceModeListener)) != null) {
@@ -346,7 +340,7 @@ public class SherlockListView extends ListView {
      * Perform a quick, in-place update of the checked or activated state on all
      * visible item views. This should only be called when a valid choice mode
      * is active.
-     * <p>
+     * <p/>
      * (Taken verbatim from AbsListView.java)
      */
     @TargetApi(11)

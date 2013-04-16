@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="@drawable/bg_list_selector" >
+              android:layout_width="match_parent"
+              android:layout_height="80dp"
+              android:background="@drawable/bg_list_selector">
 
     <com.petriyov.android.libs.ui.views.VerticalTextView
-        android:id="@+id/categoryName"
-        android:layout_width="20dp"
-        android:layout_height="match_parent"
-        android:gravity="left"
-        android:paddingLeft="5dp"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+            android:id="@+id/categoryName"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:gravity="left"
+            android:paddingLeft="5dp"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
     <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="@android:color/black" />
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"/>
 
     <ImageView
-        android:id="@+id/favoriteCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/favoriteDescription"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:visibility="gone" />
+            android:id="@+id/favoriteCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/favoriteDescription"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:visibility="gone"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
         <TextView
-            android:id="@+id/lectureName"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:ellipsize="end"
-            android:gravity="center_vertical|left"
-            android:maxLines="2"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+                android:id="@+id/lectureName"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical|left"
+                android:maxLines="2"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/lecturerInfo"
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:ellipsize="end"
-            android:gravity="center_vertical|left"
-            android:maxLines="1"
-            android:paddingBottom="5dp"
-            android:paddingRight="5dp"
-            android:singleLine="true"
-            android:textColor="@android:color/black"
-            android:textSize="14sp" />
+                android:id="@+id/lecturerInfo"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical|left"
+                android:maxLines="1"
+                android:paddingBottom="5dp"
+                android:paddingRight="5dp"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -55,12 +55,16 @@ public class LectureInfoPresenter {
                     htmlBuilder.append("</BODY> </HTML>");
                     activity.showLectureInfo(htmlBuilder.toString());
                 }
-            };
+            }
+
+            ;
 
             @Override
             protected void onPreExecute() {
                 activity.setProgressBarIndeterminateVisibility(true);
-            };
+            }
+
+            ;
         }.execute();
     }
 }

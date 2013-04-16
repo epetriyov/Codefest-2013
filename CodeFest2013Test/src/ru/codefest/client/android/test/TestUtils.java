@@ -10,7 +10,7 @@ import android.content.Context;
 
 public class TestUtils extends TestCase {
     public static String getTestJsonFeedFromAssets(Context context,
-            String fileName) {
+                                                   String fileName) {
         try {
             InputStream inputStream = context.getAssets().open(fileName);
             BufferedReader bufferrReader = new BufferedReader(

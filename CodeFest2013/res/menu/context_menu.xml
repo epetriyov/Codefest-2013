@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/action_text"
-        android:actionViewClass="android.widget.TextView"/>
+            android:id="@+id/action_text"
+            android:actionViewClass="android.widget.TextView"/>
     <item
-        android:id="@+id/actionmode_cancel"
-        android:showAsAction="always"
-        android:title="@string/contextual_cancel"/>
+            android:id="@+id/actionmode_cancel"
+            android:showAsAction="always"
+            android:title="@string/contextual_cancel"/>
 
 </menu>

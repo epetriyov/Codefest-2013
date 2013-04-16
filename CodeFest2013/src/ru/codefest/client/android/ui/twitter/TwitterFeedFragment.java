@@ -44,7 +44,7 @@ public final class TwitterFeedFragment extends SherlockFragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_twitter, container, false);
         twitterFeedListView = (ListView) view.findViewById(R.id.twitterList);
         progressBar = view.findViewById(R.id.progressBarLayout);

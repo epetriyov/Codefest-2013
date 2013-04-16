@@ -25,7 +25,7 @@ public class DatabaseUpdater {
 
     /**
      * update database from codefest.ru
-     * 
+     *
      * @return
      */
     public int updateDatabaseFromSite() {

@@ -43,7 +43,7 @@ public class CodeFestHtmlParser implements IWebParser {
 
     /**
      * parse codefest.ru 2013 lecture categories
-     * 
+     *
      * @param programUrl
      * @return
      * @throws IOException
@@ -72,13 +72,13 @@ public class CodeFestHtmlParser implements IWebParser {
 
     /**
      * parse codefest.ru program 2013
-     * 
+     *
      * @param codefestUrl
      * @return
      * @throws IOException
      */
     public List<Lecture> parseCodeFestProgram(String codefestUrl,
-            List<Category> categories, List<LecturePeriod> lecturePeriods)
+                                              List<Category> categories, List<LecturePeriod> lecturePeriods)
             throws IOException {
         Document doc = Jsoup.connect(codefestUrl + "/program").get();
         List<Lecture> lecturesList = new ArrayList<Lecture>();
@@ -149,8 +149,8 @@ public class CodeFestHtmlParser implements IWebParser {
     }
 
     private void parseDayProgram(String programUrl, Element dayElement,
-            List<Lecture> lectures, List<Category> categories,
-            List<LecturePeriod> lecturePeriods) throws IOException {
+                                 List<Lecture> lectures, List<Category> categories,
+                                 List<LecturePeriod> lecturePeriods) throws IOException {
         Lecture currentLecture = null;
         String lecturerName = null;
         String lecturerCompany = null;
@@ -194,7 +194,7 @@ public class CodeFestHtmlParser implements IWebParser {
     }
 
     private String parseLectrurerDescription(String programUrl,
-            Lecture currentLecture, String lecturerUrl) throws IOException {
+                                             Lecture currentLecture, String lecturerUrl) throws IOException {
         Document doc = Jsoup.connect(lecturerUrl).get();
         Element oratorInfo = doc.getElementsByClass(ORATOR_DESCRIPTION).get(0);
         Elements iFrames = oratorInfo.getElementsByTag("iframe");

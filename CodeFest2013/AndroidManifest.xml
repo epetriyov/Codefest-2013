@@ -1,43 +1,43 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.codefest.client.android"
-    android:versionCode="1"
-    android:versionName="1.0" >
+          package="ru.codefest.client.android"
+          android:versionCode="2"
+          android:versionName="1.2">
 
     <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="15" />
+            android:minSdkVersion="9"
+            android:targetSdkVersion="15"/>
 
     <!-- for getting data from codefest.ru and get twitter feed -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <!-- for cache images -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
-        android:name=".CodeFestApplication"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+            android:name=".CodeFestApplication"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.CodeFestActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/TabsStyle" >
+                android:name=".ui.CodeFestActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/TabsStyle">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.lecture.LectureInfoActivity"
-            android:screenOrientation="portrait" />
+                android:name=".ui.lecture.LectureInfoActivity"
+                android:screenOrientation="portrait"/>
 
         <provider
-            android:name=".provider.CodeFestProvider"
-            android:authorities="ru.codefest.provider.data"
-            android:exported="false" />
+                android:name=".provider.CodeFestProvider"
+                android:authorities="ru.codefest.provider.data"
+                android:exported="false"/>
 
-        <service android:name=".service.CodeFestService" />
+        <service android:name=".service.CodeFestService"/>
     </application>
 
 </manifest>

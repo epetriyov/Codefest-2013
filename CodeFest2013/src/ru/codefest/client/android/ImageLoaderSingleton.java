@@ -40,9 +40,9 @@ public class ImageLoaderSingleton {
                 .memoryCache(memoryCache).denyCacheImageMultipleSizesInMemory()
                 .discCacheFileNameGenerator(new Md5FileNameGenerator())
                 .tasksProcessingOrder(QueueProcessingType.LIFO).enableLogging() // Not
-                                                                                // necessary
-                                                                                // in
-                                                                                // common
+                        // necessary
+                        // in
+                        // common
                 .build();
         // Initialize ImageLoader with configuration.
         imageLoader = ImageLoader.getInstance();

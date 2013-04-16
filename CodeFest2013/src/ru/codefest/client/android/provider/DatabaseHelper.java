@@ -34,7 +34,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Class<?>[] tables;
 
     public DatabaseHelper(Context context, String databaseName,
-            int databaseVersion, Class<?>[] tables) {
+                          int databaseVersion, Class<?>[] tables) {
         super(context, databaseName, null, databaseVersion);
         this.tables = tables;
     }
@@ -53,7 +53,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase arg0, ConnectionSource arg1, int arg2,
-            int arg3) {
+                          int arg3) {
         for (int i = 0; i < tables.length; i++) {
             try {
                 TableUtils.dropTable(arg1, tables[i], true);

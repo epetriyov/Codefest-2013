@@ -68,20 +68,20 @@ public class CustomContentProvider extends ContentProvider {
         int count;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         switch (uriMatcher.match(uri)) {
-        case ALL_ROWS:
-            count = db.delete(UriUtils.getTableFromUri(uri, false), selection,
-                    selectionArgs);
-            break;
-        case SINGLE_ROW:
-            String segment = uri.getPathSegments().get(1);
-            count = db.delete(UriUtils.getTableFromUri(uri, true), KEY_ID
-                    + "="
-                    + segment
-                    + (!TextUtils.isEmpty(selection) ? " AND (" + selection
-                            + ')' : ""), selectionArgs);
-            break;
-        default:
-            throw new IllegalArgumentException("Unsupported URI: " + uri);
+            case ALL_ROWS:
+                count = db.delete(UriUtils.getTableFromUri(uri, false), selection,
+                        selectionArgs);
+                break;
+            case SINGLE_ROW:
+                String segment = uri.getPathSegments().get(1);
+                count = db.delete(UriUtils.getTableFromUri(uri, true), KEY_ID
+                        + "="
+                        + segment
+                        + (!TextUtils.isEmpty(selection) ? " AND (" + selection
+                        + ')' : ""), selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
@@ -90,14 +90,14 @@ public class CustomContentProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         switch (uriMatcher.match(uri)) {
-        case ALL_ROWS:
-            return typePrefix
-                    + UriUtils.getTableFromUri(uri, false).toLowerCase();
-        case SINGLE_ROW:
-            return typePrefix
-                    + UriUtils.getTableFromUri(uri, true).toLowerCase();
-        default:
-            throw new IllegalArgumentException("Unsupported URI: " + uri);
+            case ALL_ROWS:
+                return typePrefix
+                        + UriUtils.getTableFromUri(uri, false).toLowerCase();
+            case SINGLE_ROW:
+                return typePrefix
+                        + UriUtils.getTableFromUri(uri, true).toLowerCase();
+            default:
+                throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
     }
 
@@ -121,19 +121,19 @@ public class CustomContentProvider extends ContentProvider {
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
-            String[] selectionArgs, String sortOrder) {
+                        String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
         switch (uriMatcher.match(uri)) {
-        case SINGLE_ROW:
-            queryBuilder.setTables(UriUtils.getTableFromUri(uri, true));
-            queryBuilder.appendWhere(KEY_ID + "="
-                    + uri.getPathSegments().get(1));
-            break;
-        case ALL_ROWS:
-            queryBuilder.setTables(UriUtils.getTableFromUri(uri, false));
-            break;
-        default:
-            break;
+            case SINGLE_ROW:
+                queryBuilder.setTables(UriUtils.getTableFromUri(uri, true));
+                queryBuilder.appendWhere(KEY_ID + "="
+                        + uri.getPathSegments().get(1));
+                break;
+            case ALL_ROWS:
+                queryBuilder.setTables(UriUtils.getTableFromUri(uri, false));
+                break;
+            default:
+                break;
         }
         db = dbHelper.getReadableDatabase();
         Cursor cursor = queryBuilder.query(db, projection, selection,
@@ -144,25 +144,25 @@ public class CustomContentProvider extends ContentProvider {
 
     @Override
     public int update(Uri uri, ContentValues values, String selection,
-            String[] selectionArgs) {
+                      String[] selectionArgs) {
         int count;
         db = dbHelper.getWritableDatabase();
         switch (uriMatcher.match(uri)) {
-        case ALL_ROWS:
-            count = db.update(UriUtils.getTableFromUri(uri, false), values,
-                    selection, selectionArgs);
-            break;
-        case SINGLE_ROW:
-            String segment = uri.getPathSegments().get(1);
-            count = db.update(UriUtils.getTableFromUri(uri, true), values,
-                    KEY_ID
-                            + "="
-                            + segment
-                            + (!TextUtils.isEmpty(selection) ? " AND ("
-                                    + selection + ')' : ""), selectionArgs);
-            break;
-        default:
-            throw new IllegalArgumentException("Unknown URI " + uri);
+            case ALL_ROWS:
+                count = db.update(UriUtils.getTableFromUri(uri, false), values,
+                        selection, selectionArgs);
+                break;
+            case SINGLE_ROW:
+                String segment = uri.getPathSegments().get(1);
+                count = db.update(UriUtils.getTableFromUri(uri, true), values,
+                        KEY_ID
+                                + "="
+                                + segment
+                                + (!TextUtils.isEmpty(selection) ? " AND ("
+                                + selection + ')' : ""), selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown URI " + uri);
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
